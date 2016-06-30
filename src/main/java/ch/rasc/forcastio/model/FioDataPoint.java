@@ -57,11 +57,8 @@ public abstract class FioDataPoint {
 	/**
 	 * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) at which this
 	 * data point occurs
-	 * <p>
-	 * Not defined on daily data points
 	 */
-	@Nullable
-	public abstract Long time();
+	public abstract long time();
 
 	/**
 	 * A human-readable text summary of this data point. (Do not use this value for

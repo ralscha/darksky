@@ -69,21 +69,21 @@ public interface FioResponse {
 	 * minute-by-minute for the next hour.
 	 */
 	@Nullable
-	FioDataPoint minutely();
+	FioDataBlock minutely();
 
 	/**
 	 * An instance of {@link FioDataPoint} containing the weather conditions hour-by-hour
 	 * for the next two days.
 	 */
 	@Nullable
-	FioDataPoint hourly();
+	FioDataBlock hourly();
 
 	/**
 	 * An instance of {@link FioDataPoint} containing the weather conditions day-by-day
 	 * for the next week.
 	 */
 	@Nullable
-	FioDataPoint daily();
+	FioDataBlock daily();
 
 	/**
 	 * A collection of {@link FioAlert} instances, which, if present, contains any severe

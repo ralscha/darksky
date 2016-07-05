@@ -37,7 +37,7 @@ and process the response
 
 ## Changelog
 
-### 1.0.0 - June 30, 2016
+### 1.0.0 - July 5, 2016
   * Initial release
 
 

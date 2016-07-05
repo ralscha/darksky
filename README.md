@@ -8,22 +8,46 @@
 
 For more details about the API and for creating an API key go to 
 https://developer.forecast.io/ and sign up for a developer account.
-The free tier allows you to make 1,000 API requests per day.
+The free tier allows an application to send 1,000 API requests per day.
 
 ## Example
 
-First create an instance of FioClient
+Create an instance of FioClient
 
+```
+FioClient client = new FioClient("...forecast.io.api.key...");
+```
 
-then build a FioRequest
+build a FioRequest
 
+```
+FioRequest request = FioRequest.builder()
+                .latitude("46.93011019")
+				.longitude("7.5635394")
+				.excludeBlock(FioBlock.ALERTS, FioBlock.MINUTELY, FioBlock.HOURLY)
+				.unit(FioUnit.SI)
+				.build();
+```
 
 call the API
 
+```
+FioResponse response = client.forecastCall(request);
+```
 
 and process the response
 
+```
+for (FioDataPoint dataPoint : response.daily().data()) {
+	ZoneId zoneId = ZoneId.of(response.timezone());
+	Instant instant = Instant.ofEpochSecond(dataPoint.time());
+	LocalDateTime time = LocalDateTime.ofInstant(instant, zoneId);
 
+	System.out.print(time);
+	System.out.print(": ");
+	System.out.println(dataPoint.summary());			
+}
+```
 
 ## Maven
 

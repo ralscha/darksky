@@ -20,6 +20,8 @@ import java.util.List;
 import org.immutables.value.Value;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -29,6 +31,7 @@ import ch.rasc.forcastio.converter.FioUnitDeserializer;
  * The flags object contains various metadata information related to the request.
  */
 @Value.Immutable
+@JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(as = ImmutableFioFlag.class)
 public interface FioFlag {

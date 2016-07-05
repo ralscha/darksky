@@ -21,12 +21,15 @@ import java.util.List;
 import org.immutables.value.Value;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * The response to a forecat.io call
  */
 @Value.Immutable
+@JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(as = ImmutableFioResponse.class)
 public interface FioResponse {

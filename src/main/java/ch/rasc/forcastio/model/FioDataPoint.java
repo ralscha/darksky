@@ -24,6 +24,8 @@ import org.immutables.value.Value;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import ch.rasc.forcastio.converter.FioIconDeserializer;
@@ -50,6 +52,7 @@ import ch.rasc.forcastio.converter.FioPrecipTypeDeserializer;
  * confidence. These properties are omitted where the confidence is not precisely known.
  */
 @Value.Immutable
+@JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(as = ImmutableFioDataPoint.class)
 public abstract class FioDataPoint {

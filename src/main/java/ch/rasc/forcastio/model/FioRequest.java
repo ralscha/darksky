@@ -18,9 +18,10 @@ package ch.rasc.forcastio.model;
 import java.util.Set;
 
 import org.immutables.value.Value;
+import org.immutables.value.Value.Style.ImplementationVisibility;
 
 @Value.Immutable
-@Value.Style(depluralize = true)
+@Value.Style(add = "*", depluralize = true, visibility = ImplementationVisibility.PACKAGE)
 public interface FioRequest {
 
 	String latitude();
@@ -64,4 +65,11 @@ public interface FioRequest {
 	 */
 	Set<FioBlock> includeBlocks();
 
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	public static final class Builder extends ImmutableFioRequest.Builder {
+		// nothing here
+	}
 }

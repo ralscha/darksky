@@ -4,7 +4,7 @@
 
 ## Overview
 
-*forecastio* is a Java library for the Forecast.io API.
+*forecastio* is a Java library for the [Forecast.io](http://forecast.io/#/f/46.9500,7.4333) API.
 
 For more details about the API and for creating an API key go to 
 https://developer.forecast.io/ and sign up for a developer account.

@@ -4,10 +4,10 @@
 
 ## Overview
 
-*forecastio* is a Java library for the [Forecast.io](http://forecast.io/#/f/46.9500,7.4333) API.
+*forecastio* is a Java library for the [Dark Sky API](https://darksky.net/dev/) API.
 
 For more details about the API and for creating an API key go to 
-https://developer.forecast.io/ and sign up for a developer account.
+https://darksky.net/dev/ and sign up for a developer account.
 The free tier allows an application to send 1,000 API requests per day.
 
 ## Example
@@ -15,7 +15,7 @@ The free tier allows an application to send 1,000 API requests per day.
 Create an instance of FioClient
 
 ```
-FioClient client = new FioClient("...forecast.io.api.key...");
+FioClient client = new FioClient("...darksky.net.api.key...");
 ```
 
 build a FioRequest
@@ -61,6 +61,9 @@ for (FioDataPoint dataPoint : response.daily().data()) {
 
 ## Changelog
 
+### 1.0.1 - tbd
+  * Change endpoint from api.forecast.io to api.darksky.net
+
 ### 1.0.0 - July 5, 2016
   * Initial release
 
@@ -70,6 +73,6 @@ Code released under [the Apache license](http://www.apache.org/licenses/).
 
 
 ## Links
-  * [Forecast.io](http://forecast.io/)
+  * [Dark Sky API](https://darksky.net/dev/)
 
 

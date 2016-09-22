@@ -59,15 +59,15 @@ public class FioClient {
 	}
 
 	/**
-	 * Sends a forecast call to forecast.io.
+	 * Sends a forecast call to darksky.net.
 	 *
 	 * @param Request object
-	 * @return The forecast.io response
+	 * @return The darksky response
 	 * @throws IOException
 	 */
 	public FioResponse forecastCall(FioRequest request) throws IOException {
 		HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme("https")
-				.host("api.forecast.io").addPathSegment("forecast")
+				.host("api.darksky.net").addPathSegment("forecast")
 				.addPathSegment(this.apiKey)
 				.addPathSegment(request.latitude() + "," + request.longitude());
 

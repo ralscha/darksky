@@ -61,7 +61,7 @@ for (FioDataPoint dataPoint : response.daily().data()) {
 
 ## Changelog
 
-### 1.0.1 - tbd
+### 1.0.1 - September 30, 2016
   * Change endpoint from api.forecast.io to api.darksky.net
 
 ### 1.0.0 - July 5, 2016

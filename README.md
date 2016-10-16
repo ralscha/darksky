@@ -54,7 +54,7 @@ for (FioDataPoint dataPoint : response.daily().data()) {
 ```
 	<dependency>
 		<groupId>ch.rasc</groupId>
-		<artifactId>forecastio</artifactId>
+		<artifactId>forcastio</artifactId>
 		<version>1.0.1</version>
 	</dependency>
 ```

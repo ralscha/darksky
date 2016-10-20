@@ -23,9 +23,10 @@ import java.util.stream.Collectors;
 import ch.rasc.darksky.json.JacksonJsonConverter;
 import ch.rasc.darksky.json.JsonConverter;
 import ch.rasc.darksky.model.DsBlock;
+import ch.rasc.darksky.model.DsForecastRequest;
 import ch.rasc.darksky.model.DsLanguage;
-import ch.rasc.darksky.model.DsRequest;
 import ch.rasc.darksky.model.DsResponse;
+import ch.rasc.darksky.model.DsTimeMachineRequest;
 import ch.rasc.darksky.model.DsUnit;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -62,13 +63,13 @@ public class DsClient {
 	}
 
 	/**
-	 * Sends a forecast call to darksky.net.
+	 * Sends a Forecast Request to darksky.net.
 	 *
 	 * @param Request object
 	 * @return The darksky response
 	 * @throws IOException
 	 */
-	public DsResponse sendForecastRequest(DsRequest request) throws IOException {
+	public DsResponse sendForecastRequest(DsForecastRequest request) throws IOException {
 		HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme("https")
 				.host("api.darksky.net").addPathSegment("forecast")
 				.addPathSegment(this.apiKey)
@@ -111,9 +112,85 @@ public class DsClient {
 					.map(DsBlock::getJsonValue).collect(Collectors.joining(",")));
 		}
 
-		HttpUrl url = urlBuilder.build();
-		System.out.println(url);
-		Request getRequest = new Request.Builder().get().url(url).build();
+		Request getRequest = new Request.Builder().get().url(urlBuilder.build()).build();
+
+		try (Response response = this.httpClient.newCall(getRequest).execute()) {
+
+			String apiCallsString = response.header("X-Forecast-API-Calls");
+			if (apiCallsString != null && apiCallsString.trim().length() > 0) {
+				this.apiCalls = Integer.valueOf(apiCallsString);
+			}
+
+			this.responseTime = response.header("X-Response-Time");
+
+			String jsonData = response.body().string();
+			return this.jsonConverter.deserialize(jsonData);
+		}
+	}
+
+	/**
+	 * Sends a Time Machine Request to darksky.net
+	 * 
+	 * A Time Machine Request returns the observed (in the past) or forecasted (in the
+	 * future) hour-by-hour and daily weather conditions for a particular date. A Time
+	 * Machine request is identical in structure to a Forecast Request, except:
+	 * 
+	 * <li>The {@link DsResponse#currently()} data point will refer to the time provided,
+	 * rather than the current time.</li>
+	 * <li>The {@link DsResponse#minutely()} data block will be omitted, unless you are
+	 * requesting a time within an hour of the present.</li>
+	 * <li>The {@link DsResponse#hourly()} data block will contain data points starting at
+	 * midnight (local time) of the day requested, and continuing until midnight (local
+	 * time) of the following day.</li>
+	 * <li>The {@link DsResponse#daily()} data block will contain a single data point
+	 * referring to the requested date.</li>
+	 * <li>The {@link DsResponse#alerts()} data block will be omitted.</li>
+	 *
+	 * @param Request object
+	 * @return The darksky response
+	 * @throws IOException
+	 */
+	public DsResponse sendTimeMachineRequest(DsTimeMachineRequest request)
+			throws IOException {
+		HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme("https")
+				.host("api.darksky.net").addPathSegment("forecast")
+				.addPathSegment(this.apiKey).addPathSegment(request.latitude() + ","
+						+ request.longitude() + "," + request.time());
+
+		if (request.unit() != null && request.unit() != DsUnit.US) {
+			urlBuilder.addQueryParameter("units", request.unit().getJsonValue());
+		}
+
+		if (request.language() != null && request.language() != DsLanguage.EN) {
+			urlBuilder.addQueryParameter("lang",
+					request.language().name().toLowerCase().replace('_', '-'));
+		}
+
+		Set<DsBlock> exclude = EnumSet.noneOf(DsBlock.class);
+
+		Set<DsBlock> include = request.includeBlocks();
+		if (!include.isEmpty()) {
+			for (DsBlock block : DsBlock.values()) {
+				if (!include.contains(block)) {
+					exclude.add(block);
+				}
+			}
+		}
+
+		if (!request.excludeBlocks().isEmpty()) {
+			exclude.addAll(request.excludeBlocks());
+			if (exclude.size() == DsBlock.values().length) {
+				// Everything excluded
+				return null;
+			}
+		}
+
+		if (!exclude.isEmpty()) {
+			urlBuilder.addQueryParameter("exclude", exclude.stream()
+					.map(DsBlock::getJsonValue).collect(Collectors.joining(",")));
+		}
+
+		Request getRequest = new Request.Builder().get().url(urlBuilder.build()).build();
 
 		try (Response response = this.httpClient.newCall(getRequest).execute()) {
 

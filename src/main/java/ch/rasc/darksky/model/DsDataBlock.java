@@ -41,14 +41,20 @@ public interface DsDataBlock {
 
 	/**
 	 * A human-readable summary of this data block.
+	 * <p>
+	 * Not set on Time Machine responses.
 	 */
+	@Nullable
 	String summary();
 
 	/**
 	 * A machine-readable text summary of this data block. (May take on the same values as
 	 * the iconproperty of data points.)
+	 * <p>
+	 * Not set on Time Machine responses. 
 	 */
 	@JsonDeserialize(using = DsIconDeserializer.class)
+	@Nullable
 	DsIcon icon();
 
 	/**

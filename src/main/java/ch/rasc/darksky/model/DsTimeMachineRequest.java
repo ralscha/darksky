@@ -22,7 +22,7 @@ import org.immutables.value.Value.Style.ImplementationVisibility;
 
 @Value.Immutable
 @Value.Style(add = "*", depluralize = true, visibility = ImplementationVisibility.PACKAGE)
-public interface DsRequest {
+public interface DsTimeMachineRequest {
 
 	/**
 	 * The latitude of a location (in decimal degrees). Positive is north, negative is
@@ -37,11 +37,9 @@ public interface DsRequest {
 	String longitude();
 
 	/**
-	 * When called, returns hour-by-hour data for the next 168 hours, instead of the next
-	 * 48.
+	 * UNIX time (that is, seconds since midnight GMT on 1 Jan 1970).
 	 */
-	@Nullable
-	Boolean extendHourly();
+	long time();
 
 	/**
 	 * Return summary properties in the desired language. (Note that units in the summary
@@ -79,7 +77,7 @@ public interface DsRequest {
 		return new Builder();
 	}
 
-	public static final class Builder extends ImmutableDsRequest.Builder {
+	public static final class Builder extends ImmutableDsTimeMachineRequest.Builder {
 		// nothing here
 	}
 }

@@ -4,7 +4,7 @@
 
 ## Overview
 
-*forecastio* is a Java library for the [Dark Sky API](https://darksky.net/dev/) API.
+*forecastio* is a Java client library for the [Dark Sky API](https://darksky.net/dev/) API (previously forecast.io).
 
 For more details about the API and for creating an API key go to 
 https://darksky.net/dev/ and sign up for a developer account.

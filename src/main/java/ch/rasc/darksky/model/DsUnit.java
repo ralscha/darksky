@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
-public enum FioUnit {
+public enum DsUnit {
 
 	/**
 	 * The default.
@@ -67,7 +67,7 @@ public enum FioUnit {
 
 	private String jsonValue;
 
-	private FioUnit(String jsonValue) {
+	private DsUnit(String jsonValue) {
 		this.jsonValue = jsonValue;
 	}
 
@@ -75,8 +75,8 @@ public enum FioUnit {
 		return this.jsonValue;
 	}
 
-	public static FioUnit findByJsonValue(String jsonValue) {
-		for (FioUnit unit : FioUnit.values()) {
+	public static DsUnit findByJsonValue(String jsonValue) {
+		for (DsUnit unit : DsUnit.values()) {
 			if (jsonValue.equals(unit.jsonValue)) {
 				return unit;
 			}

@@ -13,29 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.json;
+package ch.rasc.darksky.converter;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
-import ch.rasc.forcastio.model.FioResponse;
+import ch.rasc.darksky.model.DsIcon;
 
-public class JacksonJsonConverter implements JsonConverter {
-
-	private final ObjectMapper objectMapper;
-
-	public JacksonJsonConverter() {
-		this(new ObjectMapper());
-	}
-
-	public JacksonJsonConverter(ObjectMapper objectMapper) {
-		this.objectMapper = objectMapper;
-	}
+public class DsIconDeserializer extends JsonDeserializer<DsIcon> {
 
 	@Override
-	public FioResponse deserialize(String json) throws IOException {
-		return this.objectMapper.readValue(json, FioResponse.class);
+	public DsIcon deserialize(JsonParser jp, DeserializationContext ctxt)
+			throws IOException, JsonProcessingException {
+		return DsIcon.findByJsonValue(jp.getText());
 	}
 
 }

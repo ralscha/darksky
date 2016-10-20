@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
 import org.immutables.value.Value;
 
@@ -26,8 +26,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 @Value.Immutable
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(as = ImmutableFioAlert.class)
-public interface FioAlert {
+@JsonDeserialize(as = ImmutableDsAlert.class)
+public interface DsAlert {
 
 	/**
 	 * A short text summary of the alert.

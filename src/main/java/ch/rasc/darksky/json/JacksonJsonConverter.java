@@ -13,23 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.converter;
+package ch.rasc.darksky.json;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ch.rasc.forcastio.model.FioPrecipType;
+import ch.rasc.darksky.model.DsResponse;
 
-public class FioPrecipTypeDeserializer extends JsonDeserializer<FioPrecipType> {
+public class JacksonJsonConverter implements JsonConverter {
+
+	private final ObjectMapper objectMapper;
+
+	public JacksonJsonConverter() {
+		this(new ObjectMapper());
+	}
+
+	public JacksonJsonConverter(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
 
 	@Override
-	public FioPrecipType deserialize(JsonParser jp, DeserializationContext ctxt)
-			throws IOException, JsonProcessingException {
-		return FioPrecipType.findByJsonValue(jp.getText());
+	public DsResponse deserialize(String json) throws IOException {
+		return this.objectMapper.readValue(json, DsResponse.class);
 	}
 
 }

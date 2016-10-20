@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio;
+package ch.rasc.darksky;
 
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import ch.rasc.forcastio.json.JacksonJsonConverter;
-import ch.rasc.forcastio.json.JsonConverter;
-import ch.rasc.forcastio.model.FioBlock;
-import ch.rasc.forcastio.model.FioLanguage;
-import ch.rasc.forcastio.model.FioRequest;
-import ch.rasc.forcastio.model.FioResponse;
-import ch.rasc.forcastio.model.FioUnit;
+import ch.rasc.darksky.json.JacksonJsonConverter;
+import ch.rasc.darksky.json.JsonConverter;
+import ch.rasc.darksky.model.DsBlock;
+import ch.rasc.darksky.model.DsLanguage;
+import ch.rasc.darksky.model.DsRequest;
+import ch.rasc.darksky.model.DsResponse;
+import ch.rasc.darksky.model.DsUnit;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class FioClient {
+public class DsClient {
 	private final String apiKey;
 
 	private final JsonConverter jsonConverter;
@@ -43,16 +43,15 @@ public class FioClient {
 
 	private String responseTime;
 
-	public FioClient(String apiKey) {
+	public DsClient(String apiKey) {
 		this(apiKey, new JacksonJsonConverter(), new OkHttpClient());
 	}
 
-	public FioClient(String apiKey, JsonConverter jsonConverter) {
+	public DsClient(String apiKey, JsonConverter jsonConverter) {
 		this(apiKey, jsonConverter, new OkHttpClient());
 	}
 
-	public FioClient(String apiKey, JsonConverter jsonConverter,
-			OkHttpClient httpClient) {
+	public DsClient(String apiKey, JsonConverter jsonConverter, OkHttpClient httpClient) {
 		this.apiKey = apiKey;
 		this.jsonConverter = jsonConverter;
 		this.httpClient = httpClient;
@@ -65,13 +64,13 @@ public class FioClient {
 	 * @return The darksky response
 	 * @throws IOException
 	 */
-	public FioResponse forecastCall(FioRequest request) throws IOException {
+	public DsResponse forecastCall(DsRequest request) throws IOException {
 		HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme("https")
 				.host("api.darksky.net").addPathSegment("forecast")
 				.addPathSegment(this.apiKey)
 				.addPathSegment(request.latitude() + "," + request.longitude());
 
-		if (request.unit() != null && request.unit() != FioUnit.US) {
+		if (request.unit() != null && request.unit() != DsUnit.US) {
 			urlBuilder.addQueryParameter("units", request.unit().getJsonValue());
 		}
 
@@ -79,16 +78,16 @@ public class FioClient {
 			urlBuilder.addQueryParameter("extend", "hourly");
 		}
 
-		if (request.language() != null && request.language() != FioLanguage.EN) {
+		if (request.language() != null && request.language() != DsLanguage.EN) {
 			urlBuilder.addQueryParameter("lang",
 					request.language().name().toLowerCase().replace('_', '-'));
 		}
 
-		Set<FioBlock> exclude = EnumSet.noneOf(FioBlock.class);
+		Set<DsBlock> exclude = EnumSet.noneOf(DsBlock.class);
 
-		Set<FioBlock> include = request.includeBlocks();
+		Set<DsBlock> include = request.includeBlocks();
 		if (!include.isEmpty()) {
-			for (FioBlock block : FioBlock.values()) {
+			for (DsBlock block : DsBlock.values()) {
 				if (!include.contains(block)) {
 					exclude.add(block);
 				}
@@ -97,12 +96,12 @@ public class FioClient {
 
 		if (!request.excludeBlocks().isEmpty()) {
 			exclude.addAll(request.excludeBlocks());
-			if (exclude.size() == FioBlock.values().length) {
+			if (exclude.size() == DsBlock.values().length) {
 				// Everything excluded
 				return null;
 			}
 			urlBuilder.addQueryParameter("exclude", exclude.stream()
-					.map(FioBlock::getJsonValue).collect(Collectors.joining(",")));
+					.map(DsBlock::getJsonValue).collect(Collectors.joining(",")));
 		}
 
 		Request getRequest = new Request.Builder().get().url(urlBuilder.build()).build();

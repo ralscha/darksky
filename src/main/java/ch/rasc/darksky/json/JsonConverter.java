@@ -13,21 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.json;
 
-public enum FioBlock {
+import java.io.IOException;
 
-	CURRENTLY("currently"), MINUTELY("minutely"), HOURLY("hourly"), DAILY("daily"),
-	ALERTS("alerts"), FLAGS("flags");
+import ch.rasc.darksky.model.DsResponse;
 
-	private String jsonValue;
-
-	private FioBlock(String jsonValue) {
-		this.jsonValue = jsonValue;
-	}
-
-	public String getJsonValue() {
-		return this.jsonValue;
-	}
-
+public interface JsonConverter {
+	DsResponse deserialize(String json) throws IOException;
 }

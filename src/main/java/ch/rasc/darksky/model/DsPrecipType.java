@@ -13,23 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.converter;
+package ch.rasc.darksky.model;
 
-import java.io.IOException;
+public enum DsPrecipType {
+	RAIN("rain"), SNOW("snow"), SLEET("sleet"), UNKNOWN(null);
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
+	private String jsonValue;
 
-import ch.rasc.forcastio.model.FioUnit;
+	private DsPrecipType(String jsonValue) {
+		this.jsonValue = jsonValue;
+	}
 
-public class FioUnitDeserializer extends JsonDeserializer<FioUnit> {
+	public static DsPrecipType findByJsonValue(String jsonValue) {
+		for (DsPrecipType en : DsPrecipType.values()) {
+			if (jsonValue.equals(en.jsonValue)) {
+				return en;
+			}
+		}
 
-	@Override
-	public FioUnit deserialize(JsonParser jp, DeserializationContext ctxt)
-			throws IOException, JsonProcessingException {
-		return FioUnit.findByJsonValue(jp.getText());
+		if (jsonValue != null) {
+			return UNKNOWN;
+		}
+
+		return null;
+	}
+
+	public String getJsonValue() {
+		return this.jsonValue;
 	}
 
 }

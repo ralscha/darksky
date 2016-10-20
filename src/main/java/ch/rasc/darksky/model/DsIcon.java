@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
-public enum FioIcon {
+public enum DsIcon {
 	CLEAR_DAY("clear-day"), CLEAR_NIGHT("clear-night"), RAIN("rain"), SNOW("snow"),
 	SLEET("sleet"), WIND("wind"), FOG("fog"), CLOUDY("cloudy"),
 	PARTLY_CLOUDY_DAY("partly-cloudy-day"), PARTLY_CLOUDY_NIGHT("partly-cloudy-night"),
@@ -23,12 +23,12 @@ public enum FioIcon {
 
 	private String jsonValue;
 
-	private FioIcon(String jsonValue) {
+	private DsIcon(String jsonValue) {
 		this.jsonValue = jsonValue;
 	}
 
-	public static FioIcon findByJsonValue(String jsonValue) {
-		for (FioIcon en : FioIcon.values()) {
+	public static DsIcon findByJsonValue(String jsonValue) {
+		for (DsIcon en : DsIcon.values()) {
 			if (jsonValue.equals(en.jsonValue)) {
 				return en;
 			}
@@ -40,7 +40,7 @@ public enum FioIcon {
 
 		return null;
 	}
-	
+
 	public String getJsonValue() {
 		return this.jsonValue;
 	}

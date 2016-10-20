@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,13 +26,13 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * The response to a forecat.io call
+ * The response to a Dark Sky API call
  */
 @Value.Immutable
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(as = ImmutableFioResponse.class)
-public interface FioResponse {
+@JsonDeserialize(as = ImmutableDsResponse.class)
+public interface DsResponse {
 
 	/**
 	 * The requested latitude.
@@ -61,44 +61,44 @@ public interface FioResponse {
 	int offset();
 
 	/**
-	 * An instance of {@link FioDataPoint} containing the current weather conditions at
-	 * the requested location.
+	 * An instance of {@link DsDataPoint} containing the current weather conditions at the
+	 * requested location.
 	 */
 	@Nullable
-	FioDataPoint currently();
+	DsDataPoint currently();
 
 	/**
-	 * An instance of {@link FioDataPoint} containing the weather conditions
+	 * An instance of {@link DsDataPoint} containing the weather conditions
 	 * minute-by-minute for the next hour.
 	 */
 	@Nullable
-	FioDataBlock minutely();
+	DsDataBlock minutely();
 
 	/**
-	 * An instance of {@link FioDataPoint} containing the weather conditions hour-by-hour
+	 * An instance of {@link DsDataPoint} containing the weather conditions hour-by-hour
 	 * for the next two days.
 	 */
 	@Nullable
-	FioDataBlock hourly();
+	DsDataBlock hourly();
 
 	/**
-	 * An instance of {@link FioDataPoint} containing the weather conditions day-by-day
-	 * for the next week.
+	 * An instance of {@link DsDataPoint} containing the weather conditions day-by-day for
+	 * the next week.
 	 */
 	@Nullable
-	FioDataBlock daily();
+	DsDataBlock daily();
 
 	/**
-	 * A collection of {@link FioAlert} instances, which, if present, contains any severe
+	 * A collection of {@link DsAlert} instances, which, if present, contains any severe
 	 * weather alerts, issued by a governmental weather authority, pertinent to the
 	 * requested location.
 	 */
-	List<FioAlert> alerts();
+	List<DsAlert> alerts();
 
 	/**
-	 * An instance of {@link FioFlag} containing miscellaneous metadata concerning this
+	 * An instance of {@link DsFlag} containing miscellaneous metadata concerning this
 	 * request.
 	 */
-	FioFlag flags();
+	DsFlag flags();
 
 }

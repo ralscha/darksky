@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
 import java.util.Set;
 
@@ -22,7 +22,7 @@ import org.immutables.value.Value.Style.ImplementationVisibility;
 
 @Value.Immutable
 @Value.Style(add = "*", depluralize = true, visibility = ImplementationVisibility.PACKAGE)
-public interface FioRequest {
+public interface DsRequest {
 
 	String latitude();
 
@@ -39,13 +39,13 @@ public interface FioRequest {
 	 * Return summary properties in the desired language
 	 */
 	@Nullable
-	FioLanguage language();
+	DsLanguage language();
 
 	/**
 	 * Return the API response in units other than the default Imperial units
 	 */
 	@Nullable
-	FioUnit unit();
+	DsUnit unit();
 
 	/**
 	 * Exclude some number of data blocks from the API response. This is useful for
@@ -54,7 +54,7 @@ public interface FioRequest {
 	 * By default (when this method and {@link #includeBlocks()} is never called) all
 	 * blocks are included.
 	 */
-	Set<FioBlock> excludeBlocks();
+	Set<DsBlock> excludeBlocks();
 
 	/**
 	 * Include some number of data blocks in the API response. Every block that is not
@@ -63,13 +63,13 @@ public interface FioRequest {
 	 * By default (when this method and {@link #excludeBlocks()} is never called) all
 	 * blocks are included.
 	 */
-	Set<FioBlock> includeBlocks();
+	Set<DsBlock> includeBlocks();
 
 	public static Builder builder() {
 		return new Builder();
 	}
 
-	public static final class Builder extends ImmutableFioRequest.Builder {
+	public static final class Builder extends ImmutableDsRequest.Builder {
 		// nothing here
 	}
 }

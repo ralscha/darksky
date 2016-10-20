@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import org.immutables.value.Value;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import ch.rasc.forcastio.converter.FioIconDeserializer;
+import ch.rasc.darksky.converter.DsIconDeserializer;
 
 /**
  * A data block object represents the various weather phenomena occurring over a period of
@@ -36,8 +36,8 @@ import ch.rasc.forcastio.converter.FioIconDeserializer;
  */
 @Value.Immutable
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(as = ImmutableFioDataBlock.class)
-public interface FioDataBlock {
+@JsonDeserialize(as = ImmutableDsDataBlock.class)
+public interface DsDataBlock {
 
 	/**
 	 * A human-readable text summary of this data block.
@@ -47,13 +47,13 @@ public interface FioDataBlock {
 	/**
 	 * A machine-readable text summary of this data block
 	 */
-	@JsonDeserialize(using = FioIconDeserializer.class)
-	FioIcon icon();
+	@JsonDeserialize(using = DsIconDeserializer.class)
+	DsIcon icon();
 
 	/**
-	 * A collection of {@link FioDataPoint} instances, ordered by time, which together
+	 * A collection of {@link DsDataPoint} instances, ordered by time, which together
 	 * describe the weather conditions at the requested location over time.
 	 */
-	List<FioDataPoint> data();
+	List<DsDataPoint> data();
 
 }

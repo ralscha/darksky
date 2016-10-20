@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.converter;
+package ch.rasc.darksky.converter;
 
 import java.io.IOException;
 
@@ -22,14 +22,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-import ch.rasc.forcastio.model.FioIcon;
+import ch.rasc.darksky.model.DsPrecipType;
 
-public class FioIconDeserializer extends JsonDeserializer<FioIcon> {
+public class DsPrecipTypeDeserializer extends JsonDeserializer<DsPrecipType> {
 
 	@Override
-	public FioIcon deserialize(JsonParser jp, DeserializationContext ctxt)
+	public DsPrecipType deserialize(JsonParser jp, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
-		return FioIcon.findByJsonValue(jp.getText());
+		return DsPrecipType.findByJsonValue(jp.getText());
 	}
 
 }

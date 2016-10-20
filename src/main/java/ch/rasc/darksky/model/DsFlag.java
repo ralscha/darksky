@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import ch.rasc.forcastio.converter.FioUnitDeserializer;
+import ch.rasc.darksky.converter.DsUnitDeserializer;
 
 /**
  * The flags object contains various metadata information related to the request.
@@ -33,8 +33,8 @@ import ch.rasc.forcastio.converter.FioUnitDeserializer;
 @Value.Immutable
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(as = ImmutableFioFlag.class)
-public interface FioFlag {
+@JsonDeserialize(as = ImmutableDsFlag.class)
+public interface DsFlag {
 
 	/**
 	 * The presence of this property indicates that the Dark Sky data source supports the
@@ -99,7 +99,7 @@ public interface FioFlag {
 	 * request.
 	 */
 	@Nullable
-	@JsonDeserialize(using = FioUnitDeserializer.class)
-	FioUnit units();
+	@JsonDeserialize(using = DsUnitDeserializer.class)
+	DsUnit units();
 
 }

@@ -13,8 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.converter;
 
-public @interface Nullable {
-	// nothing here
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+
+import ch.rasc.darksky.model.DsUnit;
+
+public class DsUnitDeserializer extends JsonDeserializer<DsUnit> {
+
+	@Override
+	public DsUnit deserialize(JsonParser jp, DeserializationContext ctxt)
+			throws IOException, JsonProcessingException {
+		return DsUnit.findByJsonValue(jp.getText());
+	}
+
 }

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
-public enum FioLanguage {
+public enum DsLanguage {
 
 	/** Arabic */
 	AR,

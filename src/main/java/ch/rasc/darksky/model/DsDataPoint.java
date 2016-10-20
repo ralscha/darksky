@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -28,8 +28,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import ch.rasc.forcastio.converter.FioIconDeserializer;
-import ch.rasc.forcastio.converter.FioPrecipTypeDeserializer;
+import ch.rasc.darksky.converter.DsIconDeserializer;
+import ch.rasc.darksky.converter.DsPrecipTypeDeserializer;
 
 /**
  * A data point object contains various properties, each representing a particular weather
@@ -54,8 +54,8 @@ import ch.rasc.forcastio.converter.FioPrecipTypeDeserializer;
 @Value.Immutable
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(as = ImmutableFioDataPoint.class)
-public abstract class FioDataPoint {
+@JsonDeserialize(as = ImmutableDsDataPoint.class)
+public abstract class DsDataPoint {
 
 	/**
 	 * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) at which this
@@ -75,8 +75,8 @@ public abstract class FioDataPoint {
 	 * for display.
 	 */
 	@Nullable
-	@JsonDeserialize(using = FioIconDeserializer.class)
-	public abstract FioIcon icon();
+	@JsonDeserialize(using = DsIconDeserializer.class)
+	public abstract DsIcon icon();
 
 	/**
 	 * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) of the last
@@ -174,8 +174,8 @@ public abstract class FioDataPoint {
 	 * {@link #precipIntensity()} is zero, then this property will not be defined.)
 	 */
 	@Nullable
-	@JsonDeserialize(using = FioPrecipTypeDeserializer.class)
-	public abstract FioPrecipType precipType();
+	@JsonDeserialize(using = DsPrecipTypeDeserializer.class)
+	public abstract DsPrecipType precipType();
 
 	/**
 	 * The amount of snowfall accumulation expected to occur on the given day, in inches.

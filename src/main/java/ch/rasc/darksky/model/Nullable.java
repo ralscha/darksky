@@ -13,33 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.forcastio.model;
+package ch.rasc.darksky.model;
 
-public enum FioPrecipType {
-	RAIN("rain"), SNOW("snow"), SLEET("sleet"), UNKNOWN(null);
-
-	private String jsonValue;
-
-	private FioPrecipType(String jsonValue) {
-		this.jsonValue = jsonValue;
-	}
-
-	public static FioPrecipType findByJsonValue(String jsonValue) {
-		for (FioPrecipType en : FioPrecipType.values()) {
-			if (jsonValue.equals(en.jsonValue)) {
-				return en;
-			}
-		}
-
-		if (jsonValue != null) {
-			return UNKNOWN;
-		}
-
-		return null;
-	}
-
-	public String getJsonValue() {
-		return jsonValue;
-	}
-
+public @interface Nullable {
+	// nothing here
 }

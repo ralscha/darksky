@@ -40,4 +40,8 @@ public enum FioIcon {
 
 		return null;
 	}
+	
+	public String getJsonValue() {
+		return this.jsonValue;
+	}
 }

@@ -37,4 +37,9 @@ public enum FioPrecipType {
 
 		return null;
 	}
+
+	public String getJsonValue() {
+		return jsonValue;
+	}
+
 }

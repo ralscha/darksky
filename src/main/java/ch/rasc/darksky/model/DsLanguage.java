@@ -20,6 +20,9 @@ public enum DsLanguage {
 	/** Arabic */
 	AR,
 
+	/** Azerbaijani */
+	AZ,
+
 	/** Belarusian */
 	BE,
 

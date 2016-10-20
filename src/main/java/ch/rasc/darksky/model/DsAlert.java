@@ -22,7 +22,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * An alert object represents a severe weather warning issued for the requested location
- * by a governmental authority
+ * by a governmental authority. (See the
+ * <a href="https://darksky.net/dev/docs/sources">data sources page</a> for a list of
+ * sources)
  */
 @Value.Immutable
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -30,23 +32,23 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public interface DsAlert {
 
 	/**
-	 * A short text summary of the alert.
+	 * A brief description of the alert.
 	 */
 	String title();
 
 	/**
 	 * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) at which the
-	 * alert will cease to be valid.
+	 * alert will expire.
 	 */
 	long expires();
 
 	/**
-	 * An HTTP(S) URI that contains detailed information about the alert.
+	 * An HTTP(S) URI that one may refer to for detailed information about the alert.
 	 */
 	String uri();
 
 	/**
-	 * A detailed text description of the alert from the appropriate weather service.
+	 * A detailed description of the alert.
 	 */
 	String description();
 

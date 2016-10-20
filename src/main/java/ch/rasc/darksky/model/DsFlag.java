@@ -39,64 +39,30 @@ public interface DsFlag {
 	/**
 	 * The presence of this property indicates that the Dark Sky data source supports the
 	 * given location, but a temporary error (such as a radar station being down for
-	 * maintenace) has made the data unavailable.
+	 * maintenance) has made the data unavailable.
 	 */
 	@Nullable
 	@JsonProperty("darksky-unavailable")
 	Object darkskyUnavailable();
 
 	/**
-	 * This property contains an array of IDs for each radar station utilized in servicing
-	 * this request.
-	 */
-	@JsonProperty("darksky-stations")
-	List<String> darkskyStations();
-
-	/**
-	 * This property contains an array of IDs for each DataPoint station utilized in
-	 * servicing this request.
-	 */
-	@JsonProperty("datapoint-stations")
-	List<String> datapointStations();
-
-	/**
-	 * This property contains an array of IDs for each ISD station utilized in servicing
-	 * this request.
-	 */
-	@JsonProperty("isd-stations")
-	List<String> isdStations();
-
-	/**
-	 * This property contains an array of IDs for each LAMP station utilized in servicing
-	 * this request.
-	 */
-	@JsonProperty("lamp-stations")
-	List<String> lampStations();
-
-	/**
-	 * This property contains an array of IDs for each METAR station utilized in servicing
-	 * this request.
-	 */
-	@JsonProperty("metar-stations")
-	List<String> metarStations();
-
-	/**
-	 * The presence of this property indicates that data from api.met.no was utilized in
-	 * order to facilitate this request (as per their license agreement).
+	 * The presence of this property indicates that data from
+	 * <a href="http://api.met.no/">api.met.no</a> was utilized in order to facilitate
+	 * this request (as per their license agreement).
 	 */
 	@Nullable
 	@JsonProperty("metno-license")
 	String metnoLicense();
 
 	/**
-	 * This property contains an array of IDs for each data source utilized in servicing
-	 * this request.
+	 * This property contains list of IDs for each
+	 * <a href="https://darksky.net/dev/docs/sources">data source</a> utilized in
+	 * servicing this request.
 	 */
 	List<String> sources();
 
 	/**
-	 * The presence of this property indicates which units were used for the data in this
-	 * request.
+	 * Indicates the units which were used for the data in this request.
 	 */
 	@Nullable
 	@JsonDeserialize(using = DsUnitDeserializer.class)

@@ -32,21 +32,21 @@ DsRequest request = DsRequest.builder()
 call the API
 
 ```
-DsResponse response = client.forecastCall(request);
+DsResponse response = client.sendForecastRequest(request);
 ```
 
 and process the response
 
 ```
-for (DsDataPoint dataPoint : response.daily().data()) {
-	ZoneId zoneId = ZoneId.of(response.timezone());
-	Instant instant = Instant.ofEpochSecond(dataPoint.time());
-	LocalDateTime time = LocalDateTime.ofInstant(instant, zoneId);
+	for (DsDataPoint dataPoint : response.daily().data()) {
+	    ZoneId zoneId = ZoneId.of(response.timezone());
+	    Instant instant = Instant.ofEpochSecond(dataPoint.time());
+	    ZonedDateTime time = ZonedDateTime.ofInstant(instant, zoneId);
 
-	System.out.print(time);
-	System.out.print(": ");
-	System.out.println(dataPoint.summary());			
-}
+	    System.out.print(time);
+	    System.out.print(": ");
+	    System.out.println(dataPoint.summary());
+	}
 ```
 
 ## Maven

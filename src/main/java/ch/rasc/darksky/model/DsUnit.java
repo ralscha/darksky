@@ -18,7 +18,7 @@ package ch.rasc.darksky.model;
 public enum DsUnit {
 
 	/**
-	 * The default.
+	 * Imperial units (the default)
 	 */
 	US("us"),
 
@@ -27,34 +27,34 @@ public enum DsUnit {
 	 * units:
 	 * <p>
 	 * <ul>
-	 * <li>summary: Any summaries containing temperature or snow accumulation units will
-	 * have their values in degrees Celsius or in centimeters (respectively).</li>
-	 * <li>nearestStormDistance: Kilometers.</li>
-	 * <li>precipIntensity: Millimeters per hour.</li>
-	 * <li>precipIntensityMax: Millimeters per hour.</li>
-	 * <li>precipAccumulation: Centimeters.</li>
-	 * <li>temperature: Degrees Celsius.</li>
-	 * <li>temperatureMin: Degrees Celsius.</li>
-	 * <li>temperatureMax: Degrees Celsius.</li>
-	 * <li>apparentTemperature: Degrees Celsius.</li>
-	 * <li>dewPoint: Degrees Celsius.</li>
-	 * <li>windSpeed: Meters per second.</li>
-	 * <li>pressure: Hectopascals (which are, conveniently, equivalent to the default
-	 * millibars).</li>
-	 * <li>visibility: Kilometers.</li>
+	 * <li>{@link DsDataPoint#summary()}: Any summaries containing temperature or snow
+	 * accumulation units will have their values in degrees Celsius or in centimeters
+	 * (respectively).</li>
+	 * <li>{@link DsDataPoint#nearestStormDistance()}: Kilometers.</li>
+	 * <li>{@link DsDataPoint#precipIntensity()}: Millimeters per hour.</li>
+	 * <li>{@link DsDataPoint#precipIntensityMax()}: Millimeters per hour.</li>
+	 * <li>{@link DsDataPoint#precipAccumulation()}: Centimeters.</li>
+	 * <li>{@link DsDataPoint#temperature()}: Degrees Celsius.</li>
+	 * <li>{@link DsDataPoint#temperatureMin()}: Degrees Celsius.</li>
+	 * <li>{@link DsDataPoint#temperatureMax()}: Degrees Celsius.</li>
+	 * <li>{@link DsDataPoint#apparentTemperature()}: Degrees Celsius.</li>
+	 * <li>{@link DsDataPoint#dewPoint()}: Degrees Celsius.</li>
+	 * <li>{@link DsDataPoint#windSpeed()}: Meters per second.</li>
+	 * <li>{@link DsDataPoint#pressure()}: Hectopascals.</li>
+	 * <li>{@link DsDataPoint#visibility()}: Kilometers.</li>
 	 * </ul>
 	 */
 	SI("si"),
 
 	/**
-	 * Identical to si, except that windSpeed is in kilometers per hour.
+	 * Same as {@link #SI}, except that {@link DsDataPoint#windSpeed()} is in kilometers
+	 * per hour
 	 */
 	CA("ca"),
 
 	/**
-	 * Identical to si, except that windSpeed is in miles per hour, and
-	 * nearestStormDistance and visibility are in miles, as in the US. (This option is
-	 * provided because adoption of SI in the UK has been inconsistent.)
+	 * Same as {@link #SI}, except that nearestStormDistance and visibility are in miles
+	 * and windSpeed is in miles per hour
 	 */
 	UK2("uk2"),
 

@@ -24,19 +24,29 @@ import org.immutables.value.Value.Style.ImplementationVisibility;
 @Value.Style(add = "*", depluralize = true, visibility = ImplementationVisibility.PACKAGE)
 public interface DsRequest {
 
+	/**
+	 * The latitude of a location (in decimal degrees). Positive is north, negative is
+	 * south.
+	 */
 	String latitude();
 
+	/**
+	 * The longitude of a location (in decimal degrees). Positive is east, negative is
+	 * west.
+	 */
 	String longitude();
 
 	/**
-	 * When present on a forecast request, return hourly data for the next seven days,
-	 * rather than the next two. (This option is ignored on time machine requests).
+	 * When called, returns hour-by-hour data for the next 168 hours, instead of the next
+	 * 48.
 	 */
 	@Nullable
 	Boolean extendHourly();
 
 	/**
-	 * Return summary properties in the desired language
+	 * Return summary properties in the desired language. (Note that units in the summary
+	 * will be set according to the units parameter, so be sure to set both parameters
+	 * appropriately.)
 	 */
 	@Nullable
 	DsLanguage language();

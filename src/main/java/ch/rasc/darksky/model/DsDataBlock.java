@@ -40,19 +40,20 @@ import ch.rasc.darksky.converter.DsIconDeserializer;
 public interface DsDataBlock {
 
 	/**
-	 * A human-readable text summary of this data block.
+	 * A human-readable summary of this data block.
 	 */
 	String summary();
 
 	/**
-	 * A machine-readable text summary of this data block
+	 * A machine-readable text summary of this data block. (May take on the same values as
+	 * the iconproperty of data points.)
 	 */
 	@JsonDeserialize(using = DsIconDeserializer.class)
 	DsIcon icon();
 
 	/**
-	 * A collection of {@link DsDataPoint} instances, ordered by time, which together
-	 * describe the weather conditions at the requested location over time.
+	 * An list of {@link DsDataPoint} instances, ordered by time, which together describe
+	 * the weather conditions at the requested location over time.
 	 */
 	List<DsDataPoint> data();
 

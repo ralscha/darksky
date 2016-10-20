@@ -45,18 +45,15 @@ public interface DsResponse {
 	BigDecimal longitude();
 
 	/**
-	 * The IANA timezone name for the requested location (e.g. America/New_York). This is
-	 * the timezone used for text forecast summaries and for determining the exact start
-	 * time of daily data points. (Developers are advised to rely on local system settings
-	 * rather than this value if at all possible: users may deliberately set an unusual
-	 * timezone, and furthermore are likely to know what they actually want better than
-	 * our timezone database does.)
+	 * The IANA timezone name for the requested location. This is used for the
+	 * {@link DsDataPoint#summary()} text and for determining when {@link #hourly()} and
+	 * {@link #daily()} data block objects begin.
 	 */
 	String timezone();
 
 	/**
-	 * The current timezone offset in hours from GMT. (This value is deprecated and should
-	 * not be used.)
+	 * The current timezone offset in hours. (Use of this property will almost certainly
+	 * result in Daylight Saving Time bugs. Please use timezone, instead.)
 	 */
 	int offset();
 
@@ -96,9 +93,9 @@ public interface DsResponse {
 	List<DsAlert> alerts();
 
 	/**
-	 * An instance of {@link DsFlag} containing miscellaneous metadata concerning this
-	 * request.
+	 * An instance of {@link DsFlag} containing miscellaneous metadata about the request.
 	 */
+	@Nullable
 	DsFlag flags();
 
 }

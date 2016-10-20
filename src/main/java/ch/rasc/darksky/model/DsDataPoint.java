@@ -16,13 +16,9 @@
 package ch.rasc.darksky.model;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.immutables.value.Value;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -32,24 +28,10 @@ import ch.rasc.darksky.converter.DsIconDeserializer;
 import ch.rasc.darksky.converter.DsPrecipTypeDeserializer;
 
 /**
- * A data point object contains various properties, each representing a particular weather
- * phenomenon occurring at a specific point in time. All of these properties are optional,
- * and will only be set if we have that type of information for that location and time.
- * <p>
- * minutely data points are always aligned to the top of the minute, hourly points to the
- * top of the hour, and daily points to midnight of the day, all according to the local
- * time zone.
- * <p>
- * Data points in the daily data block are special: instead of representing the weather
- * phenomena at a given instant of time, they are an aggregate point representing (unless
- * otherwise noted) the average weather conditions that will occur over the entire day.
- * <p>
- * All of the numeric, non-time fields may, optionally, have an associated Error value
- * defined (with the property precipIntensityError, windSpeedError, pressureError, etc.),
- * representing our system's confidence in its prediction. Such properties represent
- * standard deviations of the value of their associated property; small error values
- * therefore represent a strong confidence, while large error values represent a weak
- * confidence. These properties are omitted where the confidence is not precisely known.
+ * A data point object contains various properties, each representing the average (unless
+ * otherwise specified) of a particular weather phenomenon occurring during a period of
+ * time: an instant in the case of currently, a minute for minutely, an hour for hourly,
+ * and a day for daily.
  */
 @Value.Immutable
 @JsonInclude(Include.NON_NULL)
@@ -58,17 +40,62 @@ import ch.rasc.darksky.converter.DsPrecipTypeDeserializer;
 public abstract class DsDataPoint {
 
 	/**
-	 * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) at which this
-	 * data point occurs
-	 */
-	public abstract long time();
-
-	/**
-	 * A human-readable text summary of this data point. (Do not use this value for
-	 * automated purposes: you should use the icon property, instead.)
+	 * The apparent (or "feels like") temperature in degrees Fahrenheit.
+	 * <p>
+	 * Not on {@link DsResponse#daily()} data points
 	 */
 	@Nullable
-	public abstract String summary();
+	public abstract BigDecimal apparentTemperature();
+
+	/**
+	 * The maximum value of {@link #apparentTemperature()} during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points.
+	 */
+	@Nullable
+	public abstract BigDecimal apparentTemperatureMax();
+
+	/**
+	 * The UNIX time of when {@link #apparentTemperatureMax()} occurs during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points.
+	 */
+	@Nullable
+	public abstract Long apparentTemperatureMaxTime();
+
+	/**
+	 * The minimum value of {@link #apparentTemperature()} during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points.
+	 */
+	@Nullable
+	public abstract BigDecimal apparentTemperatureMin();
+
+	/**
+	 * The UNIX time of when {@link #apparentTemperatureMin()} occurs during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points.
+	 */
+	@Nullable
+	public abstract Long apparentTemperatureMinTime();
+
+	/**
+	 * The percentage of sky occluded by clouds, between 0 and 1, inclusive.
+	 */
+	@Nullable
+	public abstract BigDecimal cloudCover();
+
+	/**
+	 * The dew point in degrees Fahrenheit.
+	 */
+	@Nullable
+	public abstract BigDecimal dewPoint();
+
+	/**
+	 * The relative humidity, between 0 and 1, inclusive.
+	 */
+	@Nullable
+	public abstract BigDecimal humidity();
 
 	/**
 	 * A machine-readable text summary of this data point, suitable for selecting an icon
@@ -79,98 +106,83 @@ public abstract class DsDataPoint {
 	public abstract DsIcon icon();
 
 	/**
-	 * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) of the last
-	 * sunrise before the solar noon closest to local noon on the given day. (Note: near
-	 * the poles, these may occur on a different day entirely!)
+	 * The fractional part of the lunation number during the given day: a value of 0
+	 * corresponds to a new moon, 0.25 to a first quarter moon, 0.5 to a full moon, and
+	 * 0.75 to a last quarter moon. (The ranges in between these represent waxing
+	 * crescent, waxing gibbous, waning gibbous, and waning crescent moons, respectively.)
 	 * <p>
-	 * Only defined on daily data points
-	 */
-	@Nullable
-	public abstract Long sunriseTime();
-
-	/**
-	 * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) of the first
-	 * sunset after the solar noon closest to local noon on the given day. (Note: near the
-	 * poles, these may occur on a different day entirely!)
-	 * <p>
-	 * Only defined on daily data points
-	 */
-	@Nullable
-	public abstract Long sunsetTime();
-
-	/**
-	 * A number representing the fractional part of the lunation number of the given day:
-	 * a value of 0 corresponds to a new moon, 0.25 to a first quarter moon, 0.5 to a full
-	 * moon, and 0.75 to a last quarter moon. (The ranges in between these represent
-	 * waxing crescent, waxing gibbous, waning gibbous, and waning crescent moons,
-	 * respectively.)
-	 * <p>
-	 * Only defined on daily data points
+	 * Only on {@link DsResponse#daily()} data points
 	 */
 	@Nullable
 	public abstract BigDecimal moonPhase();
 
 	/**
-	 * A numerical value representing the distance to the nearest storm in miles. (This
-	 * value is very approximate and should not be used in scenarios requiring accurate
-	 * results. In particular, a storm distance of zero doesn't necessarily refer to a
-	 * storm at the requested location, but rather a storm in the vicinity of that
-	 * location.)
+	 * The approximate direction of the nearest storm in degrees, with true north at 0°
+	 * and progressing clockwise. (If {@link #nearestStormDistance()} is zero, then this
+	 * value will not be defined.)
 	 * <p>
-	 * Only defined on currently data points
-	 */
-	@Nullable
-	public abstract BigDecimal nearestStormDistance();
-
-	/**
-	 * A numerical value representing the direction of the nearest storm in degrees, with
-	 * true north at 0° and progressing clockwise. (If nearestStormDistance is zero, then
-	 * this value will not be defined. The caveats that apply to nearestStormDistance also
-	 * apply to this value.)
-	 * <p>
-	 * Only defined on currently data points
+	 * Only on {@link DsResponse#currently()} data points
 	 */
 	@Nullable
 	public abstract BigDecimal nearestStormBearing();
 
 	/**
-	 * A numerical value representing the average expected intensity (in inches of liquid
-	 * water per hour) of precipitation occurring at the given time conditional on
-	 * probability (that is, assuming any precipitation occurs at all). A very rough guide
-	 * is that a value of 0 in./hr. corresponds to no precipitation, 0.002 in./hr.
-	 * corresponds to very light precipitation, 0.017 in./hr. corresponds to light
-	 * precipitation, 0.1 in./hr. corresponds to moderate precipitation, and 0.4 in./hr.
-	 * corresponds to heavy precipitation.
+	 * The approximate distance to the nearest storm in miles. (A storm distance of 0
+	 * doesn't necessarily refer to a storm at the requested location, but rather a storm
+	 * in the vicinity of that location.)
+	 * <p>
+	 * Only on {@link DsResponse#currently()} data points
+	 */
+	@Nullable
+	public abstract BigDecimal nearestStormDistance();
+
+	/**
+	 * The columnar density of total atmospheric ozone at the given time in Dobson units.
+	 */
+	@Nullable
+	public abstract BigDecimal ozone();
+
+	/**
+	 * The amount of snowfall accumulation expected to occur, in inches. (If no snowfall
+	 * is expected, this property will not be defined.)
+	 * <p>
+	 * Only on {@link DsResponse#hourly()} and {@link DsResponse#daily()} data points
+	 */
+	@Nullable
+	public abstract BigDecimal precipAccumulation();
+
+	/**
+	 * The intensity (in inches of liquid water per hour) of precipitation occurring at
+	 * the given time. This value is conditional on probability (that is, assuming any
+	 * precipitation occurs at all) for minutely data points, and unconditional otherwise.
 	 */
 	@Nullable
 	public abstract BigDecimal precipIntensity();
 
 	/**
-	 * Numerical values representing the maximumum expected intensity of precipitation on
-	 * the given day in inches of liquid water per hour.
+	 * The maximum value of {@link #precipIntensity()} during a given day.
 	 * <p>
-	 * Only defined on daily data points
+	 * Only on {@link DsResponse#daily()} data points
 	 */
 	@Nullable
 	public abstract BigDecimal precipIntensityMax();
 
 	/**
-	 * The UNIX time at which {@link #precipIntensityMax()} occurs on the given day
+	 * The UNIX time of when {@link #precipIntensityMax()} occurs during a given day.
 	 * <p>
-	 * Only defined on daily data points.
+	 * Only on {@link DsResponse#daily()} data points.
 	 */
 	@Nullable
 	public abstract Long precipIntensityMaxTime();
 
 	/**
-	 * A numerical value between 0 and 1 (inclusive) representing the probability of
-	 * precipitation occurring at the given time.
+	 * The probability of precipitation occurring, between 0 and 1, inclusive.
 	 */
 	@Nullable
 	public abstract BigDecimal precipProbability();
 
 	/**
-	 * The type of precipitation occurring at the given time. If
+	 * The type of precipitation occurring at the given time. (If
 	 * {@link #precipIntensity()} is zero, then this property will not be defined.)
 	 */
 	@Nullable
@@ -178,165 +190,102 @@ public abstract class DsDataPoint {
 	public abstract DsPrecipType precipType();
 
 	/**
-	 * The amount of snowfall accumulation expected to occur on the given day, in inches.
-	 * (If no accumulation is expected, this property will not be defined.)
-	 * <p>
-	 * Only defined on hourly and daily data points
-	 */
-	@Nullable
-	public abstract BigDecimal precipAccumulation();
-
-	/**
-	 * A numerical value representing the temperature at the given time in degrees
-	 * Fahrenheit.
-	 * <p>
-	 * Not defined on daily data points.
-	 */
-	@Nullable
-	public abstract BigDecimal temperature();
-
-	/**
-	 * Numerical values representing the minimum temperature on the given day in degrees
-	 * Fahrenheit.
-	 * <p>
-	 * Only defined on daily data points.
-	 */
-	@Nullable
-	public abstract BigDecimal temperatureMin();
-
-	/**
-	 * The UNIX time at which {@link #temperatureMin()} occurs.
-	 * <p>
-	 * Only defined on daily data points.
-	 */
-	@Nullable
-	public abstract Long temperatureMinTime();
-
-	/**
-	 * A numerical value representing the maximumum temperature on the given day in
-	 * degrees Fahrenheit.
-	 * <p>
-	 * Only defined on daily data points.
-	 */
-	@Nullable
-	public abstract BigDecimal temperatureMax();
-
-	/**
-	 * The UNIX time at which {@link #temperatureMax()} occurs.
-	 * <p>
-	 * Only defined on daily data points.
-	 */
-	@Nullable
-	public abstract Long temperatureMaxTime();
-
-	/**
-	 * A numerical value representing the apparent (or "feels like") temperature at the
-	 * given time in degrees Fahrenheit.
-	 * <p>
-	 * Not defined on daily data points
-	 */
-	@Nullable
-	public abstract BigDecimal apparentTemperature();
-
-	/**
-	 * A numerical value representing the minimum apparent temperature on the given day in
-	 * degrees Fahrenheit.
-	 * <p>
-	 * Only defined on daily data points.
-	 */
-	@Nullable
-	public abstract BigDecimal apparentTemperatureMin();
-
-	/**
-	 * The UNIX time at which {@link #apparentTemperatureMin()} occurs.
-	 * <p>
-	 * Only defined on daily data points.
-	 */
-	@Nullable
-	public abstract Long apparentTemperatureMinTime();
-
-	/**
-	 * A numerical value representing the maximumum apparent temperature on the given day
-	 * in degrees Fahrenheit.
-	 * <p>
-	 * Only defined on daily data points.
-	 */
-	@Nullable
-	public abstract BigDecimal apparentTemperatureMax();
-
-	/**
-	 * The UNIX time at which {@link #apparentTemperatureMax()} occurs.
-	 * <p>
-	 * Only defined on daily data points.
-	 */
-	@Nullable
-	public abstract Long apparentTemperatureMaxTime();
-
-	/**
-	 * A numerical value representing the dew point at the given time in degrees
-	 * Fahrenheit.
-	 */
-	@Nullable
-	public abstract BigDecimal dewPoint();
-
-	/**
-	 * A numerical value representing the wind speed in miles per hour.
-	 */
-	@Nullable
-	public abstract BigDecimal windSpeed();
-
-	/**
-	 * A numerical value representing the direction that the wind is coming from in
-	 * degrees, with true north at 0° and progressing clockwise. (If windSpeed is zero,
-	 * then this value will not be defined.)
-	 */
-	@Nullable
-	public abstract BigDecimal windBearing();
-
-	/**
-	 * A numerical value between 0 and 1 (inclusive) representing the percentage of sky
-	 * occluded by clouds.
-	 */
-	@Nullable
-	public abstract BigDecimal cloudCover();
-
-	/**
-	 * A numerical value between 0 and 1 (inclusive) representing the relative humidity.
-	 */
-	@Nullable
-	public abstract BigDecimal humidity();
-
-	/**
-	 * A numerical value representing the sea-level air pressure in millibars.
+	 * The sea-level air pressure in millibars.
 	 */
 	@Nullable
 	public abstract BigDecimal pressure();
 
 	/**
-	 * A numerical value representing the average visibility in miles, capped at 10 miles.
+	 * A human-readable text summary of this data point. (This property has millions of
+	 * possible values, so don't use it for automated purposes: use the icon property,
+	 * instead!)
+	 */
+	@Nullable
+	public abstract String summary();
+
+	/**
+	 * The UNIX time of when the sun will rise during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points
+	 */
+	@Nullable
+	public abstract Long sunriseTime();
+
+	/**
+	 * The UNIX time of when the sun will set during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points
+	 */
+	@Nullable
+	public abstract Long sunsetTime();
+
+	/**
+	 * The air temperature in degrees Fahrenheit.
+	 * <p>
+	 * Not on {@link DsResponse#daily()} data points.
+	 */
+	@Nullable
+	public abstract BigDecimal temperature();
+
+	/**
+	 * The maximum value of temperature during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points.
+	 */
+	@Nullable
+	public abstract BigDecimal temperatureMax();
+
+	/**
+	 * The UNIX time of when {@link #temperatureMax()} occurs during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points.
+	 */
+	@Nullable
+	public abstract Long temperatureMaxTime();
+
+	/**
+	 * The minimum value of temperature during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points.
+	 */
+	@Nullable
+	public abstract BigDecimal temperatureMin();
+
+	/**
+	 * The UNIX time of when {@link #temperatureMin()} occurs during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()} data points.
+	 */
+	@Nullable
+	public abstract Long temperatureMinTime();
+
+	/**
+	 * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) at which this
+	 * data point begins. {@link DsResponse#minutely()} data point are always aligned to
+	 * the top of the minute, {@link DsResponse#hourly()} data point objects to the top of
+	 * the hour, and {@link DsResponse#daily()} data point objects to midnight of the day,
+	 * all according to the local time zone.
+	 */
+	public abstract long time();
+
+	/**
+	 * The average visibility in miles, capped at 10 miles.
 	 */
 	@Nullable
 	public abstract BigDecimal visibility();
 
 	/**
-	 * A numerical value representing the columnar density of total atmospheric ozone at
-	 * the given time in Dobson units.
+	 * The direction that the wind is coming from in degrees, with true north at 0° and
+	 * progressing clockwise. (If {@link #windSpeed()} is zero, then this value will not
+	 * be defined.)
 	 */
 	@Nullable
-	public abstract BigDecimal ozone();
+	public abstract BigDecimal windBearing();
 
-	final Map<String, Object> additionalProperties = new HashMap<>();
+	/**
+	 * The wind speed in miles per hour.
+	 */
+	@Nullable
+	public abstract BigDecimal windSpeed();
 
-	@JsonAnySetter
-	void handleUnknown(String key, Object value) {
-		this.additionalProperties.put(key, value);
-	}
-
-	public Object getAdditionalProperty(String key) {
-		return this.additionalProperties.get(key);
-	}
-
-	public Map<String, Object> getAdditionalProperties() {
-		return Collections.unmodifiableMap(this.additionalProperties);
-	}
 }

@@ -47,6 +47,10 @@ public class DsClient {
 		this(apiKey, new JacksonJsonConverter(), new OkHttpClient());
 	}
 
+	public DsClient(String apiKey, OkHttpClient httpClient) {
+		this(apiKey, new JacksonJsonConverter(), httpClient);
+	}
+
 	public DsClient(String apiKey, JsonConverter jsonConverter) {
 		this(apiKey, jsonConverter, new OkHttpClient());
 	}
@@ -64,7 +68,7 @@ public class DsClient {
 	 * @return The darksky response
 	 * @throws IOException
 	 */
-	public DsResponse forecastCall(DsRequest request) throws IOException {
+	public DsResponse sendForecastRequest(DsRequest request) throws IOException {
 		HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme("https")
 				.host("api.darksky.net").addPathSegment("forecast")
 				.addPathSegment(this.apiKey)
@@ -100,11 +104,16 @@ public class DsClient {
 				// Everything excluded
 				return null;
 			}
+		}
+
+		if (!exclude.isEmpty()) {
 			urlBuilder.addQueryParameter("exclude", exclude.stream()
 					.map(DsBlock::getJsonValue).collect(Collectors.joining(",")));
 		}
 
-		Request getRequest = new Request.Builder().get().url(urlBuilder.build()).build();
+		HttpUrl url = urlBuilder.build();
+		System.out.println(url);
+		Request getRequest = new Request.Builder().get().url(url).build();
 
 		try (Response response = this.httpClient.newCall(getRequest).execute()) {
 

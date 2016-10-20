@@ -12,14 +12,14 @@
 	</prerequisites>
 
 	<groupId>ch.rasc</groupId>
-	<artifactId>forcastio</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<artifactId>darksky</artifactId>
+	<version>2.0.0-SNAPSHOT</version>
 
 	<inceptionYear>2016</inceptionYear>
 
-	<name>Forecast.io client library</name>
-	<description>Provides access to the Forecast.io API</description>
-	<url>https://github.com/ralscha/forecastio/</url>
+	<name>Dark Sky API client library</name>
+	<description>Provides access to the Dark Sky API</description>
+	<url>https://github.com/ralscha/darksky/</url>
 
 	<developers>
 		<developer>
@@ -38,13 +38,13 @@
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/ralscha/forecastio/issues</url>
+		<url>https://github.com/ralscha/darksky/issues</url>
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:git@github.com:ralscha/forecastio.git</connection>
-		<developerConnection>scm:git:git@github.com:ralscha/forecastio.git</developerConnection>
-		<url>https://github.com/ralscha/forecastio.git</url>
+		<connection>scm:git:git@github.com:ralscha/darksky.git</connection>
+		<developerConnection>scm:git:git@github.com:ralscha/darksky.git</developerConnection>
+		<url>https://github.com/ralscha/darksky.git</url>
 	</scm>
 
 	<properties>

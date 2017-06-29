@@ -20,6 +20,8 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import ch.rasc.darksky.json.JacksonJsonConverter;
 import ch.rasc.darksky.json.JsonConverter;
 import ch.rasc.darksky.model.DsBlock;
@@ -32,6 +34,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class DsClient {
 	private final String apiKey;
@@ -69,23 +72,27 @@ public class DsClient {
 	 * @return The darksky response
 	 * @throws IOException
 	 */
+	@Nullable
 	public DsResponse sendForecastRequest(DsForecastRequest request) throws IOException {
 		HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme("https")
 				.host("api.darksky.net").addPathSegment("forecast")
 				.addPathSegment(this.apiKey)
 				.addPathSegment(request.latitude() + "," + request.longitude());
 
-		if (request.unit() != null && request.unit() != DsUnit.US) {
-			urlBuilder.addQueryParameter("units", request.unit().getJsonValue());
+		DsUnit unit = request.unit();
+		if (unit != null && unit != DsUnit.US) {
+			urlBuilder.addQueryParameter("units", unit.getJsonValue());
 		}
 
-		if (request.extendHourly() != null && request.extendHourly().booleanValue()) {
+		Boolean extendHourly = request.extendHourly();
+		if (extendHourly != null && extendHourly.booleanValue()) {
 			urlBuilder.addQueryParameter("extend", "hourly");
 		}
 
-		if (request.language() != null && request.language() != DsLanguage.EN) {
+		DsLanguage language = request.language();
+		if (language != null && language != DsLanguage.EN) {
 			urlBuilder.addQueryParameter("lang",
-					request.language().name().toLowerCase().replace('_', '-'));
+					language.name().toLowerCase().replace('_', '-'));
 		}
 
 		Set<DsBlock> exclude = EnumSet.noneOf(DsBlock.class);
@@ -114,7 +121,8 @@ public class DsClient {
 
 		Request getRequest = new Request.Builder().get().url(urlBuilder.build()).build();
 
-		try (Response response = this.httpClient.newCall(getRequest).execute()) {
+		try (Response response = this.httpClient.newCall(getRequest).execute();
+				ResponseBody body = response.body()) {
 
 			String apiCallsString = response.header("X-Forecast-API-Calls");
 			if (apiCallsString != null && apiCallsString.trim().length() > 0) {
@@ -123,18 +131,22 @@ public class DsClient {
 
 			this.responseTime = response.header("X-Response-Time");
 
-			String jsonData = response.body().string();
-			return this.jsonConverter.deserialize(jsonData);
+			if (body != null) {
+				String jsonData = body.string();
+				return this.jsonConverter.deserialize(jsonData);
+			}
 		}
+
+		return null;
 	}
 
 	/**
 	 * Sends a Time Machine Request to darksky.net
-	 * 
+	 *
 	 * A Time Machine Request returns the observed (in the past) or forecasted (in the
 	 * future) hour-by-hour and daily weather conditions for a particular date. A Time
 	 * Machine request is identical in structure to a Forecast Request, except:
-	 * 
+	 *
 	 * <li>The {@link DsResponse#currently()} data point will refer to the time provided,
 	 * rather than the current time.</li>
 	 * <li>The {@link DsResponse#minutely()} data block will be omitted, unless you are
@@ -150,6 +162,7 @@ public class DsClient {
 	 * @return The darksky response
 	 * @throws IOException
 	 */
+	@Nullable
 	public DsResponse sendTimeMachineRequest(DsTimeMachineRequest request)
 			throws IOException {
 		HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme("https")
@@ -157,13 +170,15 @@ public class DsClient {
 				.addPathSegment(this.apiKey).addPathSegment(request.latitude() + ","
 						+ request.longitude() + "," + request.time());
 
-		if (request.unit() != null && request.unit() != DsUnit.US) {
-			urlBuilder.addQueryParameter("units", request.unit().getJsonValue());
+		DsUnit unit = request.unit();
+		if (unit != null && unit != DsUnit.US) {
+			urlBuilder.addQueryParameter("units", unit.getJsonValue());
 		}
 
-		if (request.language() != null && request.language() != DsLanguage.EN) {
+		DsLanguage language = request.language();
+		if (language != null && language != DsLanguage.EN) {
 			urlBuilder.addQueryParameter("lang",
-					request.language().name().toLowerCase().replace('_', '-'));
+					language.name().toLowerCase().replace('_', '-'));
 		}
 
 		Set<DsBlock> exclude = EnumSet.noneOf(DsBlock.class);
@@ -192,7 +207,8 @@ public class DsClient {
 
 		Request getRequest = new Request.Builder().get().url(urlBuilder.build()).build();
 
-		try (Response response = this.httpClient.newCall(getRequest).execute()) {
+		try (Response response = this.httpClient.newCall(getRequest).execute();
+				ResponseBody body = response.body()) {
 
 			String apiCallsString = response.header("X-Forecast-API-Calls");
 			if (apiCallsString != null && apiCallsString.trim().length() > 0) {
@@ -201,9 +217,13 @@ public class DsClient {
 
 			this.responseTime = response.header("X-Response-Time");
 
-			String jsonData = response.body().string();
-			return this.jsonConverter.deserialize(jsonData);
+			if (body != null) {
+				String jsonData = body.string();
+				return this.jsonConverter.deserialize(jsonData);
+			}
 		}
+
+		return null;
 	}
 
 	/**

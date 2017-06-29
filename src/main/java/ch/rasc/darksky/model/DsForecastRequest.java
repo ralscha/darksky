@@ -17,6 +17,8 @@ package ch.rasc.darksky.model;
 
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.immutables.value.Value;
 import org.immutables.value.Value.Style.ImplementationVisibility;
 

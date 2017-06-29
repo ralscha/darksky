@@ -17,6 +17,8 @@ package ch.rasc.darksky.model;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nullable;
+
 import org.immutables.value.Value;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

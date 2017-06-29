@@ -17,6 +17,8 @@ package ch.rasc.darksky.model;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.immutables.value.Value;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -51,7 +53,7 @@ public interface DsDataBlock {
 	 * A machine-readable text summary of this data block. (May take on the same values as
 	 * the iconproperty of data points.)
 	 * <p>
-	 * Not set on Time Machine responses. 
+	 * Not set on Time Machine responses.
 	 */
 	@JsonDeserialize(using = DsIconDeserializer.class)
 	@Nullable

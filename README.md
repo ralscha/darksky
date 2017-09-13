@@ -1,4 +1,4 @@
-##darksky
+## darksky
 
 [![Build Status](https://api.travis-ci.org/ralscha/darksky.png)](https://travis-ci.org/ralscha/darksky)
 

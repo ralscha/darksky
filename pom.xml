@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.2</version>
+			<version>2.9.4</version>
 		</dependency>
 
 		<dependency>
@@ -121,7 +121,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.6</version>
+				<version>3.7</version>
 			</plugin>
 
 			<plugin>
@@ -158,9 +158,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
+				<version>3.0.0</version>
 				<configuration>
-					<additionalparam>-Xdoclint:none</additionalparam>
+					<additionalOptions>-Xdoclint:none</additionalOptions>
 				</configuration>
 			</plugin>
 
@@ -173,7 +173,7 @@
 					<properties>
 						
 						<year>${project.inceptionYear}</year>
-						<currentYear>2017</currentYear>
+						<currentYear>2018</currentYear>
 						
 					</properties>
 					<excludes>

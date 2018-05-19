@@ -4,7 +4,7 @@
 
 ## Overview
 
-*darksky* is a Java client library for the [Dark Sky API](https://darksky.net/dev/) API (previously forecast.io).
+*darksky* is a Java client library for the [Dark Sky API](https://darksky.net/dev/) API (former forecast.io).
 
 For more details about the API and for creating an API key go to 
 https://darksky.net/dev/ and sign up for a developer account.
@@ -102,7 +102,7 @@ for (DsDataPoint dataPoint : response.hourly().data()) {
 ## Changelog
 
 ### 2.0.0 - October 20, 2016
-  * Change package to ch.rasc.darksky (previously: ch.rasc.foecastio)
+  * Change package to ch.rasc.darksky (previously: ch.rasc.forecastio)
   * Change class name prefix from Fio* to Ds* (i.e. FioClient -> DsClient)
   * Fix include/exclude handling
   * Add time machine requests
@@ -111,6 +111,7 @@ for (DsDataPoint dataPoint : response.hourly().data()) {
 ### 1.0.1 - September 30, 2016
   * Change endpoint from api.forecast.io to api.darksky.net
 
+  
 ### 1.0.0 - July 5, 2016
   * Initial release
 

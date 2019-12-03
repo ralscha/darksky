@@ -1,6 +1,6 @@
 ## darksky
 
-[![Build Status](https://api.travis-ci.org/ralscha/darksky.png)](https://travis-ci.org/ralscha/darksky)
+![Test Status](https://github.com/ralscha/darksky/workflows/test/badge.svg)
 
 ## Overview
 

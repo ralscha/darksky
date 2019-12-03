@@ -186,9 +186,10 @@
 						<exclude>.factorypath</exclude>
 						<exclude>.mvn/**/*</exclude>
 						<exclude>mvnw.cmd</exclude>
-					    <exclude>mvnw</exclude>
-					    <exclude>.apt_generated/**</exclude>
+					  <exclude>mvnw</exclude>
+					  <exclude>.apt_generated/**</exclude>
 						<exclude>.editorconfig</exclude>
+						<exclude>.github/**</exclude>
 					</excludes>
 					<strictCheck>true</strictCheck>
 				</configuration>

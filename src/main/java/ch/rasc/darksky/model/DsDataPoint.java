@@ -44,15 +44,47 @@ public abstract class DsDataPoint {
 	/**
 	 * The apparent (or "feels like") temperature in degrees Fahrenheit.
 	 * <p>
-	 * Not on {@link DsResponse#daily()} data points
+	 * Only on {@link DsResponse#hourly()} and {@link DsResponse#currently()}
 	 */
 	@Nullable
 	public abstract BigDecimal apparentTemperature();
 
 	/**
+	 * The daytime high apparent temperature.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract BigDecimal apparentTemperatureHigh();
+
+	/**
+	 * The UNIX time representing when the daytime high apparent temperature occurs.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract Long apparentTemperatureHighTime();
+
+	/**
+	 * The overnight low apparent temperature.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract BigDecimal apparentTemperatureLow();
+
+	/**
+	 * The UNIX time representing when the overnight low apparent temperature occurs.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract Long apparentTemperatureLowTime();
+
+	/**
 	 * The maximum value of {@link #apparentTemperature()} during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract BigDecimal apparentTemperatureMax();
@@ -60,7 +92,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The UNIX time of when {@link #apparentTemperatureMax()} occurs during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract Long apparentTemperatureMaxTime();
@@ -68,7 +100,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The minimum value of {@link #apparentTemperature()} during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract BigDecimal apparentTemperatureMin();
@@ -76,7 +108,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The UNIX time of when {@link #apparentTemperatureMin()} occurs during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract Long apparentTemperatureMinTime();
@@ -113,7 +145,7 @@ public abstract class DsDataPoint {
 	 * 0.75 to a last quarter moon. (The ranges in between these represent waxing
 	 * crescent, waxing gibbous, waning gibbous, and waning crescent moons, respectively.)
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract BigDecimal moonPhase();
@@ -164,7 +196,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The maximum value of {@link #precipIntensity()} during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract BigDecimal precipIntensityMax();
@@ -172,7 +204,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The UNIX time of when {@link #precipIntensityMax()} occurs during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract Long precipIntensityMaxTime();
@@ -208,7 +240,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The UNIX time of when the sun will rise during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract Long sunriseTime();
@@ -216,7 +248,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The UNIX time of when the sun will set during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract Long sunsetTime();
@@ -232,7 +264,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The maximum value of temperature during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract BigDecimal temperatureMax();
@@ -240,7 +272,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The UNIX time of when {@link #temperatureMax()} occurs during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract Long temperatureMaxTime();
@@ -248,7 +280,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The minimum value of temperature during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract BigDecimal temperatureMin();
@@ -256,7 +288,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The UNIX time of when {@link #temperatureMin()} occurs during a given day.
 	 * <p>
-	 * Only on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract Long temperatureMinTime();
@@ -269,6 +301,20 @@ public abstract class DsDataPoint {
 	 * all according to the local time zone.
 	 */
 	public abstract long time();
+
+	/**
+	 * The UV index.
+	 */
+	@Nullable
+	public abstract Integer uvIndex();
+
+	/**
+	 * The UNIX time of when the maximum {@link #uvIndex()} occurs during a given day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract Long uvIndexTime();
 
 	/**
 	 * The average visibility in miles, capped at 10 miles.

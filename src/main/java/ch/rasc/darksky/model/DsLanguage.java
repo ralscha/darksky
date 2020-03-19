@@ -26,11 +26,23 @@ public enum DsLanguage {
 	/** Belarusian */
 	BE,
 
+	/** Bulgarian */
+	BG,
+
+	/** Bengali */
+	BN,
+
 	/** Bosnian */
 	BS,
 
+	/** Catalan */
+	CA,
+
 	/** Czech */
 	CS,
+
+	/** Danish */
+	DA,
 
 	/** German */
 	DE,
@@ -41,11 +53,26 @@ public enum DsLanguage {
 	/** English, which is the default */
 	EN,
 
+	/** Esperanto */
+	EO,
+
 	/** Spanish */
 	ES,
 
+	/** Estonian */
+	ET,
+
+	/** Finnish */
+	FI,
+
 	/** French */
 	FR,
+
+	/** Hebrew */
+	HE,
+
+	/** Hindi */
+	HI,
 
 	/** Croatian */
 	HR,
@@ -56,14 +83,32 @@ public enum DsLanguage {
 	/** Indonesian */
 	ID,
 
-	/** Italian */
-	IT,
-
 	/** Icelandic */
 	IS,
 
+	/** Italian */
+	IT,
+
+	/** Georgian */
+	KA,
+
+	/** Kannada */
+	KN,
+
+	/** Korean */
+	KO,
+
 	/** Cornish */
 	KW,
+
+	/** Latvian */
+	LV,
+
+	/** Malayam */
+	ML,
+
+	/** Marathi */
+	MR,
 
 	/** Norwegian Bokmål */
 	NB,
@@ -71,11 +116,20 @@ public enum DsLanguage {
 	/** Dutch */
 	NL,
 
+	/** Norwegian Bokmål (alias for {@link #NB}) */
+	NO,
+
+	/** Punjabi */
+	PA,
+
 	/** Polish */
 	PL,
 
 	/** Portuguese */
 	PT,
+
+	/** Romanian */
+	RO,
 
 	/** Russian */
 	RU,
@@ -83,11 +137,20 @@ public enum DsLanguage {
 	/** Slovak */
 	SK,
 
+	/** Slovenian */
+	SL,
+
 	/** Serbian */
 	SR,
 
 	/** Swedish */
 	SV,
+
+	/** Tamil */
+	TA,
+
+	/** Telugu */
+	TE,
 
 	/** Tetum */
 	TET,
@@ -97,6 +160,9 @@ public enum DsLanguage {
 
 	/** Ukrainian */
 	UK,
+
+	/** Urdu */
+	UR,
 
 	/** Igpay Atinlay */
 	X_PIG_LATIN,

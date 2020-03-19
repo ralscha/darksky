@@ -48,16 +48,17 @@ public interface DsFlag {
 	Object darkskyUnavailable();
 
 	/**
-	 * The presence of this property indicates that data from
-	 * <a href="http://api.met.no/">api.met.no</a> was utilized in order to facilitate
-	 * this request (as per their license agreement).
+	 * The distance to the nearest weather station that contributed data to this response.
+	 * Note, however, that many other stations may have also been used; this value is
+	 * primarily for debugging purposes. This property's value is in miles (if US units
+	 * are selected) or kilometers (if SI units are selected).
 	 */
 	@Nullable
-	@JsonProperty("metno-license")
-	String metnoLicense();
+	@JsonProperty("nearest-station")
+	String nearestStation();
 
 	/**
-	 * This property contains list of IDs for each
+	 * This property contains a list of IDs for each
 	 * <a href="https://darksky.net/dev/docs/sources">data source</a> utilized in
 	 * servicing this request.
 	 */

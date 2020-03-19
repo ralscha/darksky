@@ -47,8 +47,8 @@ public interface DsResponse {
 	BigDecimal longitude();
 
 	/**
-	 * The IANA timezone name for the requested location. This is used for the
-	 * {@link DsDataPoint#summary()} text and for determining when {@link #hourly()} and
+	 * The IANA timezone name for the requested location. This is used for text
+	 * {@link DsDataPoint#summary()} and for determining when {@link #hourly()} and
 	 * {@link #daily()} data block objects begin.
 	 */
 	String timezone();
@@ -57,45 +57,45 @@ public interface DsResponse {
 	 * The current timezone offset in hours. (Use of this property will almost certainly
 	 * result in Daylight Saving Time bugs. Please use timezone, instead.)
 	 */
+	@Deprecated
 	int offset();
 
 	/**
-	 * An instance of {@link DsDataPoint} containing the current weather conditions at the
-	 * requested location.
+	 * A {@link DsDataPoint} containing the current weather conditions at the requested
+	 * location.
 	 */
 	@Nullable
 	DsDataPoint currently();
 
 	/**
-	 * An instance of {@link DsDataPoint} containing the weather conditions
-	 * minute-by-minute for the next hour.
+	 * A {@link DsDataBlock} containing the weather conditions minute-by-minute for the
+	 * next hour.
 	 */
 	@Nullable
 	DsDataBlock minutely();
 
 	/**
-	 * An instance of {@link DsDataPoint} containing the weather conditions hour-by-hour
-	 * for the next two days.
+	 * A {@link DsDataBlock} containing the weather conditions hour-by-hour for the next
+	 * two days.
 	 */
 	@Nullable
 	DsDataBlock hourly();
 
 	/**
-	 * An instance of {@link DsDataPoint} containing the weather conditions day-by-day for
-	 * the next week.
+	 * A {@link DsDataBlock} containing the weather conditions day-by-day for the next
+	 * week.
 	 */
 	@Nullable
 	DsDataBlock daily();
 
 	/**
-	 * A collection of {@link DsAlert} instances, which, if present, contains any severe
-	 * weather alerts, issued by a governmental weather authority, pertinent to the
-	 * requested location.
+	 * A list of {@link DsAlert} instances, which, if present, contains any severe weather
+	 * alerts pertinent to the requested location.
 	 */
 	List<DsAlert> alerts();
 
 	/**
-	 * An instance of {@link DsFlag} containing miscellaneous metadata about the request.
+	 * A {@link DsFlag} object containing miscellaneous metadata about the request.
 	 */
 	@Nullable
 	DsFlag flags();

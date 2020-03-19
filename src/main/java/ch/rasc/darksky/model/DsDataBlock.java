@@ -60,7 +60,7 @@ public interface DsDataBlock {
 	DsIcon icon();
 
 	/**
-	 * An list of {@link DsDataPoint} instances, ordered by time, which together describe
+	 * A list of {@link DsDataPoint} instances, ordered by time, which together describe
 	 * the weather conditions at the requested location over time.
 	 */
 	List<DsDataPoint> data();

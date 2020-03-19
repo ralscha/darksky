@@ -173,7 +173,7 @@
 					<properties>
 						
 						<year>${project.inceptionYear}</year>
-						<currentYear>2018</currentYear>
+						<currentYear>2020</currentYear>
 						
 					</properties>
 					<excludes>

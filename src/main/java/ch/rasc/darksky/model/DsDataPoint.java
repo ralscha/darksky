@@ -194,6 +194,14 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal precipIntensity();
 
 	/**
+	 * The standard deviation of the distribution of precipIntensity. (We only return this
+	 * property when the full distribution, and not merely the expected mean, can be
+	 * estimated with accuracy.)
+	 */
+	@Nullable
+	public abstract BigDecimal precipIntensityError();
+
+	/**
 	 * The maximum value of {@link #precipIntensity()} during a given day.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
@@ -260,6 +268,38 @@ public abstract class DsDataPoint {
 	 */
 	@Nullable
 	public abstract BigDecimal temperature();
+
+	/**
+	 * The daytime high temperature.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract BigDecimal temperatureHigh();
+
+	/**
+	 * The UNIX time representing when the daytime high temperature occurs.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract Long temperatureHighTime();
+
+	/**
+	 * The overnight low temperature.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract BigDecimal temperatureLow();
+
+	/**
+	 * The UNIX time representing when the overnight low temperature occurs.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract Long temperatureLowTime();
 
 	/**
 	 * The maximum value of temperature during a given day.
@@ -329,6 +369,20 @@ public abstract class DsDataPoint {
 	 */
 	@Nullable
 	public abstract BigDecimal windBearing();
+
+	/**
+	 * The wind gust speed in miles per hour.
+	 */
+	@Nullable
+	public abstract BigDecimal windGust();
+
+	/**
+	 * The time at which the maximum wind gust speed occurs during the day.
+	 * <p>
+	 * Only on {@link DsResponse#daily()}
+	 */
+	@Nullable
+	public abstract Long windGustTime();
 
 	/**
 	 * The wind speed in miles per hour.

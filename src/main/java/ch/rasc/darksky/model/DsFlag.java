@@ -15,6 +15,7 @@
  */
 package ch.rasc.darksky.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -55,7 +56,7 @@ public interface DsFlag {
 	 */
 	@Nullable
 	@JsonProperty("nearest-station")
-	String nearestStation();
+	BigDecimal nearestStation();
 
 	/**
 	 * This property contains a list of IDs for each

@@ -45,14 +45,18 @@ public interface DsTimeMachineRequest {
 
 	/**
 	 * Return summary properties in the desired language. (Note that units in the summary
-	 * will be set according to the units parameter, so be sure to set both parameters
-	 * appropriately.)
+	 * will be set according to the {@link #unit()} parameter, so be sure to set both
+	 * parameters appropriately.)
+	 * <p>
+	 * Default: {@link DsLanguage#EN}
 	 */
 	@Nullable
 	DsLanguage language();
 
 	/**
-	 * Return the API response in units other than the default Imperial units
+	 * Return weather conditions in the requested units.
+	 * <p>
+	 * Default: {@link DsUnit#US}
 	 */
 	@Nullable
 	DsUnit unit();
@@ -61,16 +65,16 @@ public interface DsTimeMachineRequest {
 	 * Exclude some number of data blocks from the API response. This is useful for
 	 * reducing latency and saving cache space.
 	 * <p>
-	 * By default (when this method and {@link #includeBlocks()} is never called) all
+	 * By default (when this method and {@link #includeBlocks()} are never called) all
 	 * blocks are included.
 	 */
 	Set<DsBlock> excludeBlocks();
 
 	/**
-	 * Include some number of data blocks in the API response. Every block that is not
-	 * specifed is automatically excluded.
+	 * Include some number of data blocks in the API response. Blocks that are not
+	 * specifed are automatically excluded.
 	 * <p>
-	 * By default (when this method and {@link #excludeBlocks()} is never called) all
+	 * By default (when this method and {@link #excludeBlocks()} are never called) all
 	 * blocks are included.
 	 */
 	Set<DsBlock> includeBlocks();

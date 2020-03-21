@@ -46,8 +46,8 @@ public interface DsAlert {
 	long expires();
 
 	/**
-	 * A list of strings representing the names of the regions covered by this weather
-	 * alert.
+	 * A list of <code>String</code> representing the names of the regions covered by this
+	 * weather alert.
 	 */
 	List<String> regions();
 

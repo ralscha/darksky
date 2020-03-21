@@ -29,12 +29,6 @@ import ch.rasc.darksky.converter.DsIconDeserializer;
 /**
  * A data block object represents the various weather phenomena occurring over a period of
  * time.
- *
- * Ideally, the minutely data block will contain data for the next hour, the hourly data
- * block for the next two days, and the daily data block for the next week; however, if we
- * are lacking data for a given time period, the data point sequence may contain gaps or
- * terminate early. Furthermore, if no data points for a time period are known, then the
- * data block will be omitted from the response in its entirety.
  */
 @Value.Immutable
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -43,17 +37,13 @@ public interface DsDataBlock {
 
 	/**
 	 * A human-readable summary of this data block.
-	 * <p>
-	 * Not set on Time Machine responses.
 	 */
 	@Nullable
 	String summary();
 
 	/**
 	 * A machine-readable text summary of this data block. (May take on the same values as
-	 * the iconproperty of data points.)
-	 * <p>
-	 * Not set on Time Machine responses.
+	 * {@link DsDataPoint#icon()}.)
 	 */
 	@JsonDeserialize(using = DsIconDeserializer.class)
 	@Nullable

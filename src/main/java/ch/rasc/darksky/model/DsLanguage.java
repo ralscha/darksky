@@ -50,7 +50,7 @@ public enum DsLanguage {
 	/** Greek */
 	EL,
 
-	/** English, which is the default */
+	/** English (default) */
 	EN,
 
 	/** Esperanto */

@@ -32,8 +32,9 @@ import ch.rasc.darksky.converter.DsPrecipTypeDeserializer;
 /**
  * A data point object contains various properties, each representing the average (unless
  * otherwise specified) of a particular weather phenomenon occurring during a period of
- * time: an instant in the case of currently, a minute for minutely, an hour for hourly,
- * and a day for daily.
+ * time: an instant in the case of {@link DsResponse#currently()}, a minute for
+ * {@link DsResponse#minutely()}, an hour for {@link DsResponse#hourly()}, and a day for
+ * {@link DsResponse#daily()}.
  */
 @Value.Immutable
 @JsonInclude(Include.NON_NULL)
@@ -58,7 +59,7 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal apparentTemperatureHigh();
 
 	/**
-	 * The UNIX time representing when the daytime high apparent temperature occurs.
+	 * The UNIX time representing when {@link #apparentTemperatureHigh()} occurs.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -74,7 +75,7 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal apparentTemperatureLow();
 
 	/**
-	 * The UNIX time representing when the overnight low apparent temperature occurs.
+	 * The UNIX time representing when {@link #apparentTemperatureLow()} occurs.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -82,7 +83,7 @@ public abstract class DsDataPoint {
 	public abstract Long apparentTemperatureLowTime();
 
 	/**
-	 * The maximum value of {@link #apparentTemperature()} during a given day.
+	 * The maximum apparent temperature during a given date.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -90,7 +91,7 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal apparentTemperatureMax();
 
 	/**
-	 * The UNIX time of when {@link #apparentTemperatureMax()} occurs during a given day.
+	 * The UNIX time representing when {@link #apparentTemperatureMax()} occurs.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -98,7 +99,7 @@ public abstract class DsDataPoint {
 	public abstract Long apparentTemperatureMaxTime();
 
 	/**
-	 * The minimum value of {@link #apparentTemperature()} during a given day.
+	 * The minimum apparent temperature during a given date.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -106,7 +107,7 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal apparentTemperatureMin();
 
 	/**
-	 * The UNIX time of when {@link #apparentTemperatureMin()} occurs during a given day.
+	 * The UNIX time representing when {@link #apparentTemperatureMin()} occurs.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -155,7 +156,7 @@ public abstract class DsDataPoint {
 	 * and progressing clockwise. (If {@link #nearestStormDistance()} is zero, then this
 	 * value will not be defined.)
 	 * <p>
-	 * Only on {@link DsResponse#currently()} data points
+	 * Only on {@link DsResponse#currently()}
 	 */
 	@Nullable
 	public abstract BigDecimal nearestStormBearing();
@@ -165,7 +166,7 @@ public abstract class DsDataPoint {
 	 * doesn't necessarily refer to a storm at the requested location, but rather a storm
 	 * in the vicinity of that location.)
 	 * <p>
-	 * Only on {@link DsResponse#currently()} data points
+	 * Only on {@link DsResponse#currently()}
 	 */
 	@Nullable
 	public abstract BigDecimal nearestStormDistance();
@@ -177,10 +178,12 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal ozone();
 
 	/**
-	 * The amount of snowfall accumulation expected to occur, in inches. (If no snowfall
-	 * is expected, this property will not be defined.)
+	 * The amount of snowfall accumulation expected to occur (over the hour or day,
+	 * respectively), in inches. (If no snowfall is expected, this property will not be
+	 * defined.)
 	 * <p>
-	 * Only on {@link DsResponse#hourly()} and {@link DsResponse#daily()} data points
+	 * Only on {@link DsResponse#hourly()}, {@link DsResponse#currently()} and
+	 * {@link DsResponse#daily()}
 	 */
 	@Nullable
 	public abstract BigDecimal precipAccumulation();
@@ -188,15 +191,15 @@ public abstract class DsDataPoint {
 	/**
 	 * The intensity (in inches of liquid water per hour) of precipitation occurring at
 	 * the given time. This value is conditional on probability (that is, assuming any
-	 * precipitation occurs at all) for minutely data points, and unconditional otherwise.
+	 * precipitation occurs at all).
 	 */
 	@Nullable
 	public abstract BigDecimal precipIntensity();
 
 	/**
-	 * The standard deviation of the distribution of precipIntensity. (We only return this
-	 * property when the full distribution, and not merely the expected mean, can be
-	 * estimated with accuracy.)
+	 * The standard deviation of the distribution of {@link #precipIntensity()}. (We only
+	 * return this property when the full distribution, and not merely the expected mean,
+	 * can be estimated with accuracy.)
 	 */
 	@Nullable
 	public abstract BigDecimal precipIntensityError();
@@ -210,7 +213,7 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal precipIntensityMax();
 
 	/**
-	 * The UNIX time of when {@link #precipIntensityMax()} occurs during a given day.
+	 * The UNIX time of when {@link #precipIntensityMax()} occurs.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -225,7 +228,9 @@ public abstract class DsDataPoint {
 
 	/**
 	 * The type of precipitation occurring at the given time. (If
-	 * {@link #precipIntensity()} is zero, then this property will not be defined.)
+	 * {@link #precipIntensity()} is zero, then this property will not be defined.
+	 * Additionally, due to the lack of data in our sources, historical precipType
+	 * information is usually estimated, rather than observed.)
 	 */
 	@Nullable
 	@JsonDeserialize(using = DsPrecipTypeDeserializer.class)
@@ -239,7 +244,7 @@ public abstract class DsDataPoint {
 
 	/**
 	 * A human-readable text summary of this data point. (This property has millions of
-	 * possible values, so don't use it for automated purposes: use the icon property,
+	 * possible values, so don't use it for automated purposes: use {@link #icon()}
 	 * instead!)
 	 */
 	@Nullable
@@ -264,7 +269,7 @@ public abstract class DsDataPoint {
 	/**
 	 * The air temperature in degrees Fahrenheit.
 	 * <p>
-	 * Not on {@link DsResponse#daily()} data points.
+	 * Only on {@link DsResponse#hourly()} and {@link DsResponse#currently()}
 	 */
 	@Nullable
 	public abstract BigDecimal temperature();
@@ -278,7 +283,7 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal temperatureHigh();
 
 	/**
-	 * The UNIX time representing when the daytime high temperature occurs.
+	 * The UNIX time representing when {@link #temperatureHigh()} occurs.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -294,7 +299,7 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal temperatureLow();
 
 	/**
-	 * The UNIX time representing when the overnight low temperature occurs.
+	 * The UNIX time representing when {@link #temperatureLow()} occurs.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -302,7 +307,7 @@ public abstract class DsDataPoint {
 	public abstract Long temperatureLowTime();
 
 	/**
-	 * The maximum value of temperature during a given day.
+	 * The maximum temperature during a given date.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -310,7 +315,7 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal temperatureMax();
 
 	/**
-	 * The UNIX time of when {@link #temperatureMax()} occurs during a given day.
+	 * The UNIX time representing when {@link #temperatureMax()} occurs.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -318,7 +323,7 @@ public abstract class DsDataPoint {
 	public abstract Long temperatureMaxTime();
 
 	/**
-	 * The minimum value of temperature during a given day.
+	 * The minimum temperature during a given date.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -326,7 +331,7 @@ public abstract class DsDataPoint {
 	public abstract BigDecimal temperatureMin();
 
 	/**
-	 * The UNIX time of when {@link #temperatureMin()} occurs during a given day.
+	 * The UNIX time representing when {@link #temperatureMin()} occurs.
 	 * <p>
 	 * Only on {@link DsResponse#daily()}
 	 */
@@ -334,11 +339,11 @@ public abstract class DsDataPoint {
 	public abstract Long temperatureMinTime();
 
 	/**
-	 * The UNIX time (that is, seconds since midnight GMT on 1 Jan 1970) at which this
-	 * data point begins. {@link DsResponse#minutely()} data point are always aligned to
-	 * the top of the minute, {@link DsResponse#hourly()} data point objects to the top of
-	 * the hour, and {@link DsResponse#daily()} data point objects to midnight of the day,
-	 * all according to the local time zone.
+	 * The UNIX time at which this data point begins. {@link DsResponse#minutely()} data
+	 * point are always aligned to the top of the minute, {@link DsResponse#hourly()} data
+	 * point objects to the top of the hour, {@link DsResponse#daily()} data point objects
+	 * to midnight of the day, and {@link DsResponse#currently()} data point object to the
+	 * point of time provided all according to the local time zone.
 	 */
 	public abstract long time();
 

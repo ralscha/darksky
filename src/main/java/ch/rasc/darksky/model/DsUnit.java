@@ -18,7 +18,7 @@ package ch.rasc.darksky.model;
 public enum DsUnit {
 
 	/**
-	 * Imperial units (the default)
+	 * Imperial units (default)
 	 */
 	US("us"),
 
@@ -40,6 +40,7 @@ public enum DsUnit {
 	 * <li>{@link DsDataPoint#apparentTemperature()}: Degrees Celsius.</li>
 	 * <li>{@link DsDataPoint#dewPoint()}: Degrees Celsius.</li>
 	 * <li>{@link DsDataPoint#windSpeed()}: Meters per second.</li>
+	 * <li>{@link DsDataPoint#windGust()}: Meters per second.</li>
 	 * <li>{@link DsDataPoint#pressure()}: Hectopascals.</li>
 	 * <li>{@link DsDataPoint#visibility()}: Kilometers.</li>
 	 * </ul>
@@ -53,8 +54,9 @@ public enum DsUnit {
 	CA("ca"),
 
 	/**
-	 * Same as {@link #SI}, except that nearestStormDistance and visibility are in miles
-	 * and windSpeed is in miles per hour
+	 * Same as {@link #SI}, except that {@link DsDataPoint#nearestStormDistance()} and
+	 * {@link DsDataPoint#visibility()} are in miles and {@link DsDataPoint#windSpeed()}
+	 * is in miles per hour
 	 */
 	UK2("uk2"),
 

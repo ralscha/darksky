@@ -95,11 +95,32 @@ for (DsDataPoint dataPoint : response.hourly().data()) {
 	<dependency>
 		<groupId>ch.rasc</groupId>
 		<artifactId>darksky</artifactId>
-		<version>2.0.0</version>
+		<version>2.0.1</version>
 	</dependency>
 ```
 
 ## Changelog
+
+### 2.0.1 - March 21, 2020
+  * Add missing properties to DsAlert and DsDataPoint according to the [Dark Sky API documentation](https://darksky.net/dev/docs).
+
+      - DsAlert.regions
+      - DsAlert.severity
+      - DsAlert.time
+      - DsDataPoint.apparentTemperatureHigh
+      - DsDataPoint.apparentTemperatureHighTime
+      - DsDataPoint.apparentTemperatureLow
+      - DsDataPoint.apparentTemperatureLowTime
+      - DsDataPoint.precipIntensityError
+      - DsDataPoint.temperatureHigh
+      - DsDataPoint.temperatureHighTime
+      - DsDataPoint.temperatureLow
+      - DsDataPoint.temperatureLowTime
+      - DsDataPoint.uvIndex
+      - DsDataPoint.uvIndexTime
+      - DsDataPoint.windGust
+      - DsDataPoint.windGustTime
+
 
 ### 2.0.0 - October 20, 2016
   * Change package to ch.rasc.darksky (previously: ch.rasc.forecastio)

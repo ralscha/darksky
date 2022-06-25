@@ -1,3 +1,7 @@
+# Update: support for the Dark Sky API will be ending on March 31st, 2023
+# https://darksky.net/dev
+
+
 ## darksky
 
 ![Test Status](https://github.com/ralscha/darksky/workflows/test/badge.svg)
